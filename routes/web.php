@@ -5,6 +5,7 @@ use App\Http\Controllers\Course\GetOneCourseController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebhookController;
+use App\Livewire\Checkout;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,7 +21,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', LandingController::class)->name('landing');
 Route::get('/courses/{course}', GetOneCourseController::class)->name('courses.show');
-Route::get('/courses/{course}/checkout', CheckoutController::class)->name('courses.checkout');
+// Route::get('/courses/{course}/checkout', CheckoutController::class)->name('courses.checkout');
+Route::get('/courses/{course}/checkout', Checkout::class)->name('courses.checkout');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

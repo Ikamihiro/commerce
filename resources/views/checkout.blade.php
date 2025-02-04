@@ -1,5 +1,4 @@
 <x-guest-layout>
-
     <div x-data="stepper()" x-cloak>
         <div class="flex justify-between mb-6">
             <template x-for="num in [1,2,3,4]" :key="num">
