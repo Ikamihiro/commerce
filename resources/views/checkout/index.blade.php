@@ -1,6 +1,5 @@
-<x-guest-layout>
-
-    <div x-data="stepper()" x-cloak>
+<x-checkout-layout>
+    <div x-data="Stepper('{{ route('payment.process') }}', '{{ $course->price }}', '{{ $course->id }}')" x-cloak>
         <div class="flex justify-between mb-6">
             <template x-for="num in [1,2,3,4]" :key="num">
                 <div class="flex flex-col items-center">
@@ -109,7 +108,7 @@
                             <h2 class="text-xl font-semibold mb-2">Compra realizada com sucesso!</h2>
                             <p class="text-gray-700 mb-4">Você receberá um e-mail com os detalhes da sua compra.</p>
 
-                            <button type="button" @click="window.location.href = '{{ route('dashboard') }}'"
+                            <button type="button" @click="window.location.href = '/'"
                                 class="text-sm bg-blue-500 text-white px-4 py-2 rounded-lg">
                                 Voltar para o Dashboard
                             </button>
@@ -140,12 +139,12 @@
                                 <h1 class="text-xl font-medium"
                                     x-text="'Pague R$ ' + paymentData?.transaction_amount + ' via Pix'"></h1>
                             </div>
-                            <div>
+                            <div x-show="paymentData && paymentData.point_of_interaction">
                                 <h2 class="font-medium mb-4">Para pagar, escolha uma destas opções:</h2>
                                 <div class="space-y-4">
                                     <p class="text-sm text-gray-600">Código QR</p>
                                     <div class="flex justify-center">
-                                        <img x-bind:src="'data:image/jpeg;base64,' + (paymentData?.point_of_interaction?.transaction_data?.qr_code_base64 || '')"
+                                        <img x-bind:src="'data:image/jpeg;base64,' + paymentData?.point_of_interaction?.transaction_data?.qr_code_base64"
                                             alt="QR Code" class="w-48 h-48" />
                                     </div>
                                 </div>
@@ -153,7 +152,7 @@
                                     <p class="text-sm text-gray-600">Código de pagamento</p>
                                     <div class="flex gap-2 items-center">
                                         <input type="text"
-                                            x-model="paymentData.point_of_interaction.transaction_data.qr_code"
+                                            x-model="paymentData?.point_of_interaction?.transaction_data?.qr_code || ''"
                                             readonly
                                             class="bg-gray-50 p-2 text-sm rounded border flex-1 text-gray-600" />
                                         <button class="text-blue-600 p-2">
@@ -219,6 +218,7 @@
     </body>
     <script>
         const mp = new MercadoPago("TEST-6264061c-2825-4fb5-82db-cb37727eba41");
+        window.mp = mp;
 
         (async function getIdentificationTypes() {
             try {
@@ -258,186 +258,186 @@
             elem.appendChild(tempOptions);
         }
 
-        function stepper() {
-            return {
-                step: 1,
-                paymentMethod: 'card',
-                paymentData: {},
-                next() {
-                    if (!this.validateStep()) {
-                        return;
-                    }
-                    this.step > 3 ? null : this.step = this.step + 1;
-                    if (this.step === 3) {
-                        this.buildPaymentForm();
-                    }
-                },
-                prev() {
-                    this.step < 2 ? null : this.step = this.step - 1;
-                },
-                validateStep() {
-                    if (this.step === 1) {
-                        return this.validatePersonalInfo();
-                    }
-                    if (this.step === 2) {
-                        return this.validatePaymentMethod();
-                    }
-                    return true;
-                },
-                validatePersonalInfo() {
-                    const firstName = document.getElementById('payer_first_name').value;
-                    const lastName = document.getElementById('payer_last_name').value;
-                    const email = document.getElementById('payer_email').value;
-                    const documentNumber = document.getElementById('payer.identification.number').value;
-                    const identificationType = document.getElementById('payer_identification_type').value;
+        // function stepper() {
+        //     return {
+        //         step: 1,
+        //         paymentMethod: 'card',
+        //         paymentData: {},
+        //         next() {
+        //             if (!this.validateStep()) {
+        //                 return;
+        //             }
+        //             this.step > 3 ? null : this.step = this.step + 1;
+        //             if (this.step === 3) {
+        //                 this.buildPaymentForm();
+        //             }
+        //         },
+        //         prev() {
+        //             this.step < 2 ? null : this.step = this.step - 1;
+        //         },
+        //         validateStep() {
+        //             if (this.step === 1) {
+        //                 return this.validatePersonalInfo();
+        //             }
+        //             if (this.step === 2) {
+        //                 return this.validatePaymentMethod();
+        //             }
+        //             return true;
+        //         },
+        //         validatePersonalInfo() {
+        //             const firstName = document.getElementById('payer_first_name').value;
+        //             const lastName = document.getElementById('payer_last_name').value;
+        //             const email = document.getElementById('payer_email').value;
+        //             const documentNumber = document.getElementById('payer.identification.number').value;
+        //             const identificationType = document.getElementById('payer_identification_type').value;
 
-                    if (!firstName || !lastName || !email || !documentNumber || !identificationType) {
-                        alert('Preencha todos os campos');
-                        return false;
-                    }
+        //             if (!firstName || !lastName || !email || !documentNumber || !identificationType) {
+        //                 alert('Preencha todos os campos');
+        //                 return false;
+        //             }
 
-                    return true;
-                },
-                validatePaymentMethod() {
-                    const paymentMethod = document.getElementById('payment_method').value;
+        //             return true;
+        //         },
+        //         validatePaymentMethod() {
+        //             const paymentMethod = document.getElementById('payment_method').value;
 
-                    if (!paymentMethod) {
-                        alert('Selecione um método de pagamento');
-                        return false;
-                    }
+        //             if (!paymentMethod) {
+        //                 alert('Selecione um método de pagamento');
+        //                 return false;
+        //             }
 
-                    return true;
-                },
-                buildPaymentForm() {
-                    if (this.paymentMethod === 'card') {
-                        this.buildCardForm();
-                    } else {
-                        this.buildPixForm();
-                    }
-                },
-                buildCardForm() {
-                    const cardForm = mp.cardForm({
-                        amount: @json($course->price),
-                        iframe: true,
-                        form: {
-                            id: "form-checkout",
-                            cardNumber: {
-                                id: "form-checkout__cardNumber",
-                                placeholder: "Número do cartão",
-                            },
-                            expirationDate: {
-                                id: "form-checkout__expirationDate",
-                                placeholder: "MM/YY",
-                            },
-                            securityCode: {
-                                id: "form-checkout__securityCode",
-                                placeholder: "Código de segurança",
-                            },
-                            cardholderName: {
-                                id: "form-checkout__cardholderName",
-                                placeholder: "Titular do cartão",
-                            },
-                            issuer: {
-                                id: "form-checkout__issuer",
-                                placeholder: "Banco emissor",
-                            },
-                            installments: {
-                                id: "form-checkout__installments",
-                                placeholder: "Parcelas",
-                            },
-                        },
-                        callbacks: {
-                            onFormMounted: error => {
-                                if (error) {
-                                    return console.warn("Form Mounted handling error: ", error);
-                                }
-                                console.log("Form mounted");
-                            },
-                            onSubmit: event => {
-                                event.preventDefault();
+        //             return true;
+        //         },
+        //         buildPaymentForm() {
+        //             if (this.paymentMethod === 'card') {
+        //                 this.buildCardForm();
+        //             } else {
+        //                 this.buildPixForm();
+        //             }
+        //         },
+        //         buildCardForm() {
+        //             const cardForm = mp.cardForm({
+        //                 amount: @json($course->price),
+        //                 iframe: true,
+        //                 form: {
+        //                     id: "form-checkout",
+        //                     cardNumber: {
+        //                         id: "form-checkout__cardNumber",
+        //                         placeholder: "Número do cartão",
+        //                     },
+        //                     expirationDate: {
+        //                         id: "form-checkout__expirationDate",
+        //                         placeholder: "MM/YY",
+        //                     },
+        //                     securityCode: {
+        //                         id: "form-checkout__securityCode",
+        //                         placeholder: "Código de segurança",
+        //                     },
+        //                     cardholderName: {
+        //                         id: "form-checkout__cardholderName",
+        //                         placeholder: "Titular do cartão",
+        //                     },
+        //                     issuer: {
+        //                         id: "form-checkout__issuer",
+        //                         placeholder: "Banco emissor",
+        //                     },
+        //                     installments: {
+        //                         id: "form-checkout__installments",
+        //                         placeholder: "Parcelas",
+        //                     },
+        //                 },
+        //                 callbacks: {
+        //                     onFormMounted: error => {
+        //                         if (error) {
+        //                             return console.warn("Form Mounted handling error: ", error);
+        //                         }
+        //                         console.log("Form mounted");
+        //                     },
+        //                     onSubmit: event => {
+        //                         event.preventDefault();
 
-                                const {
-                                    paymentMethodId: payment_method_id,
-                                    issuerId: issuer_id,
-                                    amount,
-                                    token,
-                                    installments,
-                                } = cardForm.getCardFormData();
+        //                         const {
+        //                             paymentMethodId: payment_method_id,
+        //                             issuerId: issuer_id,
+        //                             amount,
+        //                             token,
+        //                             installments,
+        //                         } = cardForm.getCardFormData();
 
-                                fetch('{{ route('payment.process') }}', {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/json",
-                                    },
-                                    body: JSON.stringify({
-                                        token,
-                                        issuer_id,
-                                        payment_method_id,
-                                        transaction_amount: Number(amount),
-                                        installments: Number(installments),
-                                        course_id: @json($course->id),
-                                        payer: {
-                                            first_name: document.getElementById('payer_first_name').value,
-                                            last_name: document.getElementById('payer_last_name').value,
-                                            email: document.getElementById('payer_email').value,
-                                            identification: {
-                                                type: document.getElementById(
-                                                    'payer_identification_type').value,
-                                                number: document.getElementById(
-                                                    'payer.identification.number').value,
-                                            },
-                                        },
-                                    }),
-                                }).then(response => response.json()).then(data => {
-                                    this.step = 5;
-                                    this.paymentData = data.data;
-                                }).catch(error => {
-                                    console.error(error);
-                                });
-                            },
-                            onFetching: (resource) => {
-                                console.log("Fetching resource: ", resource);
-                            }
-                        },
-                    });
-                },
-                buildPixForm() {
-                    console.log('Pix form');
-                    let checkoutForm = document.getElementById("form-checkout");
+        //                         fetch('{{ route('payment.process') }}', {
+        //                             method: "POST",
+        //                             headers: {
+        //                                 "Content-Type": "application/json",
+        //                             },
+        //                             body: JSON.stringify({
+        //                                 token,
+        //                                 issuer_id,
+        //                                 payment_method_id,
+        //                                 transaction_amount: Number(amount),
+        //                                 installments: Number(installments),
+        //                                 course_id: @json($course->id),
+        //                                 payer: {
+        //                                     first_name: document.getElementById('payer_first_name').value,
+        //                                     last_name: document.getElementById('payer_last_name').value,
+        //                                     email: document.getElementById('payer_email').value,
+        //                                     identification: {
+        //                                         type: document.getElementById(
+        //                                             'payer_identification_type').value,
+        //                                         number: document.getElementById(
+        //                                             'payer.identification.number').value,
+        //                                     },
+        //                                 },
+        //                             }),
+        //                         }).then(response => response.json()).then(data => {
+        //                             this.step = 5;
+        //                             this.paymentData = data.data;
+        //                         }).catch(error => {
+        //                             console.error(error);
+        //                         });
+        //                     },
+        //                     onFetching: (resource) => {
+        //                         console.log("Fetching resource: ", resource);
+        //                     }
+        //                 },
+        //             });
+        //         },
+        //         buildPixForm() {
+        //             console.log('Pix form');
+        //             let checkoutForm = document.getElementById("form-checkout");
 
-                    checkoutForm.addEventListener("submit", (e) => {
-                        e.preventDefault();
+        //             checkoutForm.addEventListener("submit", (e) => {
+        //                 e.preventDefault();
 
-                        fetch('{{ route('payment.process') }}', {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                payment_method_id: 'pix',
-                                course_id: @json($course->id),
-                                payer: {
-                                    first_name: document.getElementById('payer_first_name').value,
-                                    last_name: document.getElementById('payer_last_name').value,
-                                    email: document.getElementById('payer_email').value,
-                                    identification: {
-                                        type: document.getElementById(
-                                            'payer_identification_type').value,
-                                        number: document.getElementById(
-                                            'payer.identification.number').value,
-                                    },
-                                },
-                            }),
-                        }).then(response => response.json()).then(data => {
-                            this.step = 5;
-                            console.log(data);
-                            this.paymentData = data.data;
-                        }).catch(error => {
-                            console.error(error);
-                        });
-                    });
-                }
-            }
-        }
+        //                 fetch('{{ route('payment.process') }}', {
+        //                     method: "POST",
+        //                     headers: {
+        //                         "Content-Type": "application/json",
+        //                     },
+        //                     body: JSON.stringify({
+        //                         payment_method_id: 'pix',
+        //                         course_id: @json($course->id),
+        //                         payer: {
+        //                             first_name: document.getElementById('payer_first_name').value,
+        //                             last_name: document.getElementById('payer_last_name').value,
+        //                             email: document.getElementById('payer_email').value,
+        //                             identification: {
+        //                                 type: document.getElementById(
+        //                                     'payer_identification_type').value,
+        //                                 number: document.getElementById(
+        //                                     'payer.identification.number').value,
+        //                             },
+        //                         },
+        //                     }),
+        //                 }).then(response => response.json()).then(data => {
+        //                     this.step = 5;
+        //                     console.log(data);
+        //                     this.paymentData = data.data;
+        //                 }).catch(error => {
+        //                     console.error(error);
+        //                 });
+        //             });
+        //         }
+        //     }
+        // }
     </script>
-</x-guest-layout>
+</x-checkout-layout>

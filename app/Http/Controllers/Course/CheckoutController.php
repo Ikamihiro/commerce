@@ -9,6 +9,6 @@ class CheckoutController extends Controller
 {
     public function __invoke(Course $course)
     {
-        return view('checkout', compact('course'));
+        return view('checkout.index', compact('course'));
     }
 }
