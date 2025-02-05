@@ -1,23 +1,32 @@
-function validate() {}
+function validate() { }
 
 export function Stepper(processRoute, coursePrice, courseId) {
     return {
         step: 1,
         paymentMethod: 'card',
+        paymentMethodChose: false,
         paymentData: {},
+        cardForm: {},
         next() {
             if (!this.validateStep()) {
                 return;
             }
 
-            this.step > 3 ? null : this.step = this.step + 1;
-
-            if (this.step === 3) {
+            if (this.step === 2 && this.paymentMethodChose === false) {
                 this.buildPaymentForm();
+                return;
             }
+
+            this.step = this.step + 1;
+
         },
         prev() {
-            this.step < 2 ? null : this.step = this.step - 1;
+            if (this.step === 2 && this.paymentMethodChose === true) {
+                this.paymentMethodChose = false;
+                return;
+            }
+
+            this.step = this.step - 1;
         },
         validateStep() {
             if (this.step === 1) {
@@ -55,9 +64,13 @@ export function Stepper(processRoute, coursePrice, courseId) {
         buildPaymentForm() {
             if (this.paymentMethod === 'card') {
                 this.buildCardForm();
-            } else {
+            }
+
+            if (this.paymentMethod === 'pix') {
                 this.buildPixForm();
             }
+
+            this.paymentMethodChose = true;
         },
         buildCardForm() {
             const cardForm = window.mp.cardForm({
@@ -108,36 +121,15 @@ export function Stepper(processRoute, coursePrice, courseId) {
                             installments,
                         } = cardForm.getCardFormData();
 
-                        fetch(processRoute, {
-                            method: "POST",
-                            headers: {
-                                "Content-Type": "application/json",
-                            },
-                            body: JSON.stringify({
-                                token,
-                                issuer_id,
-                                payment_method_id,
-                                transaction_amount: Number(amount),
-                                installments: Number(installments),
-                                course_id: courseId,
-                                payer: {
-                                    first_name: document.getElementById('payer_first_name').value,
-                                    last_name: document.getElementById('payer_last_name').value,
-                                    email: document.getElementById('payer_email').value,
-                                    identification: {
-                                        type: document.getElementById(
-                                            'payer_identification_type').value,
-                                        number: document.getElementById(
-                                            'payer.identification.number').value,
-                                    },
-                                },
-                            }),
-                        }).then(response => response.json()).then(data => {
-                            this.step = 5;
-                            this.paymentData = data.data;
-                        }).catch(error => {
-                            console.error(error);
-                        });
+                        this.cardForm = {
+                            payment_method_id,
+                            issuer_id,
+                            amount,
+                            token,
+                            installments,
+                        };
+
+                        this.callProcessPaymentRoute();
                     },
                     onFetching: (resource) => {
                         console.log("Fetching resource: ", resource);
@@ -151,34 +143,79 @@ export function Stepper(processRoute, coursePrice, courseId) {
 
             checkoutForm.addEventListener("submit", (e) => {
                 e.preventDefault();
-
-                fetch(processRoute, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                        payment_method_id: 'pix',
-                        course_id: courseId,
-                        payer: {
-                            first_name: document.getElementById('payer_first_name').value,
-                            last_name: document.getElementById('payer_last_name').value,
-                            email: document.getElementById('payer_email').value,
-                            identification: {
-                                type: document.getElementById(
-                                    'payer_identification_type').value,
-                                number: document.getElementById(
-                                    'payer.identification.number').value,
-                            },
-                        },
-                    }),
-                }).then(response => response.json()).then(data => {
-                    this.step = 5;
-                    this.paymentData = data.data;
-                }).catch(error => {
-                    console.error(error);
-                });
+                this.callProcessPaymentRoute();
             });
-        }
+        },
+        callProcessPaymentRoute() {
+            fetch(processRoute, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(this.getDataToProcessPayment()),
+            }).then(response => response.json()).then(data => {
+                this.step = 4;
+                this.paymentData = data.data;
+            }).catch(error => {
+                console.error(error);
+            });
+        },
+        getDataToProcessPayment() {
+            if (this.paymentMethod === 'card') {
+                return this.getCardDataToProcessPayment();
+            }
+
+            if (this.paymentMethod === 'pix') {
+                return this.getPixDataToProcessPayment();
+            }
+
+            return {};
+        },
+        getCardDataToProcessPayment() {
+            const {
+                token,
+                issuer_id,
+                payment_method_id,
+                amount,
+                installments,
+            } = this.cardForm;
+
+            return {
+                token,
+                issuer_id,
+                payment_method_id,
+                transaction_amount: Number(amount),
+                installments: Number(installments),
+                course_id: courseId,
+                payer: {
+                    first_name: document.getElementById('payer_first_name').value,
+                    last_name: document.getElementById('payer_last_name').value,
+                    email: document.getElementById('payer_email').value,
+                    identification: {
+                        type: document.getElementById(
+                            'payer_identification_type').value,
+                        number: document.getElementById(
+                            'payer.identification.number').value,
+                    },
+                },
+            };
+        },
+        getPixDataToProcessPayment() {
+            return {
+                payment_method_id: 'pix',
+                course_id: courseId,
+                payer: {
+                    first_name: document.getElementById('payer_first_name').value,
+                    last_name: document.getElementById('payer_last_name').value,
+                    email: document.getElementById('payer_email').value,
+                    identification: {
+                        type: document.getElementById(
+                            'payer_identification_type').value,
+                        number: document.getElementById(
+                            'payer.identification.number').value,
+                    },
+                },
+            };
+        },
     }
 }
