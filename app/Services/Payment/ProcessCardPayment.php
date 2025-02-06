@@ -20,7 +20,7 @@ class ProcessCardPayment implements ProcesserContract
 
             $response = $client->create([
                 "capture" => false,
-                'transaction_amount' => (float) $data['amount'],
+                'transaction_amount' => (float) $data['transaction_amount'],
                 'token' => $data['token'],
                 'description' => $data['description'],
                 'installments' => $data['installments'] ?? 1,
@@ -48,6 +48,7 @@ class ProcessCardPayment implements ProcesserContract
                 'transaction_amount' => $response->transaction_amount,
                 'description' => $response->description,
                 'payer' => $response->payer,
+                'type' => 'card',
             ];
         } catch (MPApiException $e) {
             throw new \Exception($e->getMessage(), $e->getCode());

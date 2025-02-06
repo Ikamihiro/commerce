@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->string('amount');
             $table->integer('installments')->default(1);
+            $table->string('type');
             $table->foreignId('order_id')->constrained('orders');
             $table->timestamps();
             $table->softDeletes();

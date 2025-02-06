@@ -21,7 +21,7 @@ class ProcessPixPayment implements ProcesserContract
             ]);
 
             $response = $client->create([
-                'transaction_amount' => (float) $data['amount'],
+                'transaction_amount' => (float) $data['transaction_amount'],
                 'description' => $data['description'],
                 'payment_method_id' => $data['payment_method_id'],
                 'payer' => [
@@ -44,6 +44,7 @@ class ProcessPixPayment implements ProcesserContract
                 'description' => $response->description,
                 'payer' => $response->payer,
                 'point_of_interaction' => $response->point_of_interaction,
+                'type' => 'pix',
             ];
         } catch (MPApiException $e) {
             dd($e);

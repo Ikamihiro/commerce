@@ -1,5 +1,3 @@
-function validate() { }
-
 export function Stepper(processRoute, coursePrice, courseId) {
     return {
         step: 1,
@@ -7,6 +5,9 @@ export function Stepper(processRoute, coursePrice, courseId) {
         paymentMethodChose: false,
         paymentData: {},
         cardForm: {},
+        loading: false,
+        errors: {},
+        error: null,
         next() {
             if (!this.validateStep()) {
                 return;
@@ -37,29 +38,32 @@ export function Stepper(processRoute, coursePrice, courseId) {
             }
             return true;
         },
+        validate(fields = []) {
+            let errors = {};
+
+            fields.forEach(field => {
+                if (!document.getElementById(field).value) {
+                    errors[field] = 'Campo obrigatório';
+                }
+            });
+
+            this.errors = errors;
+
+            return Object.keys(errors).length === 0;
+        },
         validatePersonalInfo() {
-            const firstName = document.getElementById('payer_first_name').value;
-            const lastName = document.getElementById('payer_last_name').value;
-            const email = document.getElementById('payer_email').value;
-            const documentNumber = document.getElementById('payer.identification.number').value;
-            const identificationType = document.getElementById('payer_identification_type').value;
-
-            if (!firstName || !lastName || !email || !documentNumber || !identificationType) {
-                alert('Preencha todos os campos');
-                return false;
-            }
-
-            return true;
+            return this.validate([
+                'payer_first_name',
+                'payer_last_name',
+                'payer_email',
+                'payer_identification_type',
+                'payer_identification_number',
+            ]);
         },
         validatePaymentMethod() {
-            const paymentMethod = document.getElementById('payment_method').value;
-
-            if (!paymentMethod) {
-                alert('Selecione um método de pagamento');
-                return false;
-            }
-
-            return true;
+            return this.validate([
+                'payment_method',
+            ]);
         },
         buildPaymentForm() {
             if (this.paymentMethod === 'card') {
@@ -141,23 +145,27 @@ export function Stepper(processRoute, coursePrice, courseId) {
             console.log('Pix form');
             let checkoutForm = document.getElementById("form-checkout");
 
-            checkoutForm.addEventListener("submit", (e) => {
-                e.preventDefault();
+            checkoutForm.addEventListener("submit", (event) => {
+                event.preventDefault();
                 this.callProcessPaymentRoute();
             });
         },
         callProcessPaymentRoute() {
+            this.loading = true;
+
             fetch(processRoute, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    "Accept": "application/json",
                 },
                 body: JSON.stringify(this.getDataToProcessPayment()),
-            }).then(response => response.json()).then(data => {
+            }).then(response => {
+                return response.json();
+            }).then(data => {
                 this.step = 4;
                 this.paymentData = data.data;
-            }).catch(error => {
-                console.error(error);
+                this.loading = false;
             });
         },
         getDataToProcessPayment() {
@@ -195,7 +203,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
                         type: document.getElementById(
                             'payer_identification_type').value,
                         number: document.getElementById(
-                            'payer.identification.number').value,
+                            'payer_identification_number').value,
                     },
                 },
             };
@@ -204,6 +212,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
             return {
                 payment_method_id: 'pix',
                 course_id: courseId,
+                transaction_amount: coursePrice,
                 payer: {
                     first_name: document.getElementById('payer_first_name').value,
                     last_name: document.getElementById('payer_last_name').value,
@@ -212,7 +221,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
                         type: document.getElementById(
                             'payer_identification_type').value,
                         number: document.getElementById(
-                            'payer.identification.number').value,
+                            'payer_identification_number').value,
                     },
                 },
             };
