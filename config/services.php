@@ -32,6 +32,7 @@ return [
     ],
 
     'mercado_pago' => [
+        'public_key' => env('MERCADO_PAGO_PUBLIC_KEY'),
         'runtime_mode' => env('MERCADO_PAGO_RUNTIME_MODE'),
         'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
         'idempotency_key' => env('MERCADO_PAGO_IDEMPOTENCY_KEY'),
