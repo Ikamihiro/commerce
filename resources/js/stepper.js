@@ -12,12 +12,10 @@ export function Stepper(processRoute, coursePrice, courseId) {
             if (!this.validateStep()) {
                 return;
             }
-
             if (this.step === 2 && this.paymentMethodChose === false) {
                 this.buildPaymentForm();
                 return;
             }
-
             this.step = this.step + 1;
 
         },
@@ -26,7 +24,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
                 this.paymentMethodChose = false;
                 return;
             }
-
             this.step = this.step - 1;
         },
         validateStep() {
@@ -40,16 +37,12 @@ export function Stepper(processRoute, coursePrice, courseId) {
         },
         validate(fields = []) {
             let errors = {};
-
             fields.forEach(field => {
                 if (!document.getElementById(field).value) {
                     errors[field] = 'Campo obrigatório';
                 }
             });
-
             this.errors = errors;
-
-            return Object.keys(errors).length === 0;
         },
         validatePersonalInfo() {
             return this.validate([
@@ -69,11 +62,9 @@ export function Stepper(processRoute, coursePrice, courseId) {
             if (this.paymentMethod === 'card') {
                 this.buildCardForm();
             }
-
             if (this.paymentMethod === 'pix') {
                 this.buildPixForm();
             }
-
             this.paymentMethodChose = true;
         },
         buildCardForm() {
@@ -116,7 +107,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
                     },
                     onSubmit: event => {
                         event.preventDefault();
-
                         const {
                             paymentMethodId: payment_method_id,
                             issuerId: issuer_id,
@@ -124,7 +114,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
                             token,
                             installments,
                         } = cardForm.getCardFormData();
-
                         this.cardForm = {
                             payment_method_id,
                             issuer_id,
@@ -132,7 +121,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
                             token,
                             installments,
                         };
-
                         this.callProcessPaymentRoute();
                     },
                     onFetching: (resource) => {
@@ -144,7 +132,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
         buildPixForm() {
             console.log('Pix form');
             let checkoutForm = document.getElementById("form-checkout");
-
             checkoutForm.addEventListener("submit", (event) => {
                 event.preventDefault();
                 this.callProcessPaymentRoute();
@@ -152,7 +139,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
         },
         callProcessPaymentRoute() {
             this.loading = true;
-
             fetch(processRoute, {
                 method: "POST",
                 headers: {
@@ -172,11 +158,9 @@ export function Stepper(processRoute, coursePrice, courseId) {
             if (this.paymentMethod === 'card') {
                 return this.getCardDataToProcessPayment();
             }
-
             if (this.paymentMethod === 'pix') {
                 return this.getPixDataToProcessPayment();
             }
-
             return {};
         },
         getCardDataToProcessPayment() {
@@ -187,7 +171,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
                 amount,
                 installments,
             } = this.cardForm;
-
             return {
                 token,
                 issuer_id,
