@@ -31,7 +31,7 @@ class PaymentProcessController extends Controller
             'description' => $course->name,
         ]);
 
-        $student = Student::firstOrCreate([
+        $student = Student::updateOrCreate([
             'document' => $request->input('document'),
         ], [
             'first_name' => $request->input('first_name'),
