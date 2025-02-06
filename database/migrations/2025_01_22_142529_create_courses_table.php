@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->tinyText('description');
+            $table->mediumText('description');
             $table->string('price');
             $table->string('cover');
             $table->string('video_url');

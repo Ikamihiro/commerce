@@ -31,11 +31,12 @@ class PaymentProcessController extends Controller
             'description' => $course->name,
         ]);
 
-        $student = Student::create([
-            'document' => $request->input('payer.identification.number'),
-            'first_name' => $request->input('payer.first_name'),
-            'last_name' => $request->input('payer.last_name'),
-            'email' => $request->input('payer.email'),
+        $student = Student::firstOrCreate([
+            'document' => $request->input('document'),
+        ], [
+            'first_name' => $request->input('first_name'),
+            'last_name' => $request->input('last_name'),
+            'email' => $request->input('email'),
         ]);
 
         /** @var Order $order */
@@ -55,9 +56,9 @@ class PaymentProcessController extends Controller
         ]);
 
         $result = [
-            'status' =>  $payment['status'],
-            'transaction_amount' => $payment['transaction_amount'],
-            'payer_name' => $student->name,
+            'status' => $payment['status'],
+            'transaction_amount' => $payment['amount'],
+            'payer_name' => $student->first_name . ' ' . $student->last_name,
         ];
 
         if ($paymentMethod === 'pix') {
@@ -67,6 +68,6 @@ class PaymentProcessController extends Controller
         return response()->json([
             'message' => 'Payment processed successfully',
             'data' => $result,
-        ]);
+        ], 200);
     }
 }
