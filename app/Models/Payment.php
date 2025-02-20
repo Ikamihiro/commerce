@@ -17,6 +17,7 @@ class Payment extends Model
         'amount',
         'installments',
         'type',
+        'order_id',
     ];
 
     protected $casts = [
