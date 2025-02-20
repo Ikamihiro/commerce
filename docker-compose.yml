@@ -1,7 +1,7 @@
 services:
     webapp:
         build:
-            context: './vendor/laravel/sail/runtimes/8.4'
+            context: './docker/8.4'
             dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
@@ -51,6 +51,19 @@ services:
             retries: 3
             timeout: 5s
 
+    redis:
+        image: 'redis:alpine'
+        ports:
+            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        volumes:
+            - 'feics-commerce-redis:/data'
+        networks:
+            - feics-commerce
+        healthcheck:
+            test: [ "CMD", "redis-cli", "ping" ]
+            retries: 3
+            timeout: 5s
+
     mailpit:
         image: 'axllent/mailpit:latest'
         ports:
@@ -65,4 +78,6 @@ networks:
 
 volumes:
     feics-commerce-database:
+        driver: local
+    feics-commerce-redis:
         driver: local
