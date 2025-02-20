@@ -1,15 +1,12 @@
 <?php
 
-namespace App\Services\Payment;
+namespace App\Services\Payment\Processors;
 
-use App\Services\Payment\ProcesserContract;
 use MercadoPago\Client\Common\RequestOptions;
 use MercadoPago\Client\Payment\PaymentClient;
 use MercadoPago\Exceptions\MPApiException;
 
-use function Illuminate\Log\log;
-
-class ProcessPixPayment implements ProcesserContract
+class CardPaymentProcessor implements PaymentProcessorContract
 {
     public function process(array $data)
     {
@@ -21,9 +18,13 @@ class ProcessPixPayment implements ProcesserContract
             ]);
 
             $response = $client->create([
+                "capture" => false,
                 'transaction_amount' => (float) $data['transaction_amount'],
+                'token' => $data['token'],
                 'description' => $data['description'],
+                'installments' => $data['installments'] ?? 1,
                 'payment_method_id' => $data['payment_method_id'],
+                'issuer_id' => $data['issuer_id'],
                 'payer' => [
                     'first_name' => $data['payer']['first_name'],
                     'last_name' => $data['payer']['last_name'],
@@ -39,15 +40,16 @@ class ProcessPixPayment implements ProcesserContract
                 'id' => $response->id,
                 'status' => $response->status,
                 'status_detail' => $response->status_detail,
-                'transaction_details' => $response->transaction_details,
+                'payment_method_id' => $response->payment_method_id,
+                'payment_type_id' => $response->payment_type_id,
+                'issuer_id' => $response->issuer_id,
+                'installments' => $response->installments,
                 'transaction_amount' => $response->transaction_amount,
                 'description' => $response->description,
                 'payer' => $response->payer,
-                'point_of_interaction' => $response->point_of_interaction,
-                'type' => 'pix',
+                'type' => 'card',
             ];
         } catch (MPApiException $e) {
-            dd($e);
             throw new \Exception($e->getMessage(), $e->getCode());
         }
     }

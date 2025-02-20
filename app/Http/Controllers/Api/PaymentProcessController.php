@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Order;
 use App\Models\Student;
-use App\Services\Payment\ProcessCardPayment;
-use App\Services\Payment\ProcesserContract;
-use App\Services\Payment\ProcessPixPayment;
+use App\Services\Payment\Processors\CardPaymentProcessor;
+use App\Services\Payment\Processors\PaymentProcessorContract;
+use App\Services\Payment\Processors\PixPaymentProcessor;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -25,13 +25,13 @@ class PaymentProcessController extends Controller
             $paymentMethod = $request->input('payment_method_id');
 
             $processer = match ($paymentMethod) {
-                'pix' => ProcessPixPayment::class,
-                default => ProcessCardPayment::class,
+                'pix' => PixPaymentProcessor::class,
+                default => CardPaymentProcessor::class,
             };
 
             throw new \Exception('Invalid payment method');
 
-            /** @var ProcesserContract $processer */
+            /** @var PaymentProcessorContract $processer */
             $payment = (new $processer())->process([
                 ...$request->all(),
                 'amount' => $course->price,

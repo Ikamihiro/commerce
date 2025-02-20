@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Services\Payment\MercadoPagoService;
+use App\Services\Webhook\Processors\MercadoPagoWebhookProcessor;
+use App\Services\Webhook\Processors\WebhookProcessorContract;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,14 +14,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->singleton(MercadoPagoService::class);
+        $this->app->bind(WebhookProcessorContract::class, MercadoPagoWebhookProcessor::class);
     }
 
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot(): void {}
 }

@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\PaymentService;
+use App\Services\MercadoPagoService;
 use Illuminate\Support\ServiceProvider;
 use MercadoPago\MercadoPagoConfig;
 
@@ -13,8 +13,8 @@ class MercadoPagoProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(PaymentService::class, function () {
-            return new PaymentService(
+        $this->app->bind(MercadoPagoService::class, function () {
+            return new MercadoPagoService(
                 new \MercadoPago\Client\Payment\PaymentClient(),
             );
         });
