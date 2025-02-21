@@ -10,13 +10,15 @@ export function Stepper(processRoute, coursePrice, courseId) {
         error: null,
         next() {
             if (!this.validateStep()) {
+                console.log(this.step)
                 return;
             }
             if (this.step === 2 && this.paymentMethodChose === false) {
                 this.buildPaymentForm();
                 return;
             }
-            this.step = this.step + 1;
+            console.log(this.step)
+            this.step++;
 
         },
         prev() {
@@ -24,7 +26,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
                 this.paymentMethodChose = false;
                 return;
             }
-            this.step = this.step - 1;
+            this.step--;
         },
         validateStep() {
             if (this.step === 1) {
@@ -33,6 +35,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
             if (this.step === 2) {
                 return this.validatePaymentMethod();
             }
+
             return true;
         },
         validate(fields = []) {
@@ -43,6 +46,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
                 }
             });
             this.errors = errors;
+            return Object.keys(errors).length === 0;
         },
         validatePersonalInfo() {
             return this.validate([

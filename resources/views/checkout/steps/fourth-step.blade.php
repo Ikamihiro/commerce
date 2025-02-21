@@ -1,6 +1,6 @@
 <div x-show="step === 4">
     <div x-show="paymentMethod === 'card'">
-        <div x-show="paymentData.status !== 'rejected'" class="p-6 mb-12"
+        <div x-show="paymentData.status === 'authorized'" class="p-6 mb-12"
             x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90"
             x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300"
             x-transition:leave-start="opacity-100 transform scale-100"

@@ -29,8 +29,6 @@ class PaymentProcessController extends Controller
                 default => CardPaymentProcessor::class,
             };
 
-            throw new \Exception('Invalid payment method');
-
             /** @var PaymentProcessorContract $processer */
             $payment = (new $processer())->process([
                 ...$request->all(),
