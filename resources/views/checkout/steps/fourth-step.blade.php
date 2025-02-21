@@ -22,7 +22,8 @@
             x-transition:leave-start="opacity-100 transform scale-100"
             x-transition:leave-end="opacity-0 transform scale-90">
             <h2 class="text-xl font-semibold mb-2">Erro ao processar o pagamento</h2>
-            <p class="text-gray-700 mb-4">Ocorreu um erro ao processar o pagamento. Tente novamente.
+            <p class="text-gray-700 mb-4">
+                Seu pagamento foi recusado. Por favor, verifique os dados do seu cartão e tente novamente.
             </p>
 
             <button type="button" @click="window.location.reload()"
