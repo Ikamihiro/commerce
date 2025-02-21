@@ -6,10 +6,13 @@ use App\Exceptions\InvalidWebhookException;
 use App\Exceptions\PaymentNotFoundException;
 use App\Jobs\ProcessStudentEnrollment;
 use App\Jobs\ProcessStudentUnenrollment;
+use App\Mail\OrderApproved;
+use App\Mail\OrderCancelled;
 use App\Models\Payment;
 use App\Models\WebhookEntry;
 use App\Services\Payment\MercadoPagoService;
 use App\Services\Webhook\WebhookPayload;
+use Illuminate\Support\Facades\Mail;
 
 class MercadoPagoWebhookProcessor implements WebhookProcessorContract
 {
@@ -55,6 +58,11 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             'status' => $paymentFromApi->status,
         ]);
 
+        $payment->load([
+            'order.student',
+            'order.course',
+        ]);
+
         return $payment;
     }
 
@@ -74,7 +82,8 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             $payment->order->course,
         );
 
-        // TODO: notify client
+        Mail::to($payment->order->student->email)
+            ->send(new OrderApproved());
     }
 
     private function handleCancelledPayment(Payment $payment): void
@@ -88,6 +97,7 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             $payment->order->course,
         );
 
-        // TODO: notify client
+        Mail::to($payment->order->student->email)
+            ->send(new OrderCancelled());
     }
 }
