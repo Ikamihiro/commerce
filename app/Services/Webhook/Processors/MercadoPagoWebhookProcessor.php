@@ -4,6 +4,8 @@ namespace App\Services\Webhook\Processors;
 
 use App\Exceptions\InvalidWebhookException;
 use App\Exceptions\PaymentNotFoundException;
+use App\Jobs\ProcessStudentEnrollment;
+use App\Jobs\ProcessStudentUnenrollment;
 use App\Models\Payment;
 use App\Models\WebhookEntry;
 use App\Services\Payment\MercadoPagoService;
@@ -67,7 +69,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             'status' => 'approved',
         ]);
 
-        // TODO: send to moodle queue
+        ProcessStudentEnrollment::dispatch(
+            $payment->order->student,
+            $payment->order->course,
+        );
 
         // TODO: notify client
     }
@@ -78,7 +83,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             'status' => 'cancelled',
         ]);
 
-        // TODO: send to moodle queue
+        ProcessStudentUnenrollment::dispatch(
+            $payment->order->student,
+            $payment->order->course,
+        );
 
         // TODO: notify client
     }
