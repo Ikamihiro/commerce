@@ -15,7 +15,10 @@ class MoodleService
         // Enroll the student in the course
 
         Mail::to($student->email)
-            ->send(new StudentEnrolled());
+            ->send(new StudentEnrolled(
+                course: $course,
+                student: $student,
+            ));
     }
 
     public function unenrollStudent(Student $student, Course $course): void
@@ -23,6 +26,9 @@ class MoodleService
         // Unenroll the student from the course
 
         Mail::to($student->email)
-            ->send(new StudentUnenrolled());
+            ->send(new StudentUnenrolled(
+                course: $course,
+                student: $student,
+            ));
     }
 }

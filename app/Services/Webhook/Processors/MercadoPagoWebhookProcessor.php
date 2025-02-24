@@ -120,7 +120,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
         );
 
         Mail::to($payment->order->student->email)
-            ->send(new OrderApproved());
+            ->send(new OrderApproved(
+                $payment->order->course,
+                $payment->order->student,
+            ));
     }
 
     private function handleCancelledPayment(Payment $payment): void
@@ -135,6 +138,9 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
         );
 
         Mail::to($payment->order->student->email)
-            ->send(new OrderCancelled());
+            ->send(new OrderCancelled(
+                $payment->order->course,
+                $payment->order->student,
+            ));
     }
 }
