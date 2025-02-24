@@ -12,6 +12,7 @@ use App\Models\Payment;
 use App\Models\WebhookEntry;
 use App\Services\Payment\MercadoPagoService;
 use App\Services\Webhook\WebhookPayload;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class MercadoPagoWebhookProcessor implements WebhookProcessorContract
@@ -22,6 +23,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
 
     public function process(WebhookPayload $payload): void
     {
+        Log::info('Processing Mercado Pago webhook', [
+            'payload' => $payload->toArray(),
+        ]);
+
         if (!$this->isValidPayload($payload)) {
             throw new InvalidWebhookException('Invalid webhook payload');
         }
@@ -29,6 +34,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
         WebhookEntry::create(['payload' => $payload->toArray()]);
 
         $payment = $this->fetchAndUpdatePayment($payload->paymentId);
+
+        Log::info('Processing payment', [
+            'payment' => $payment->toArray(),
+        ]);
 
         match ($payment->status) {
             'authorized' => $this->handleAuthorizedPayment($payment),
@@ -68,7 +77,35 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
 
     private function handleAuthorizedPayment(Payment $payment): void
     {
-        $this->mercadoPagoService->capture($payment->external_id, (float) $payment->amount);
+        Log::info('Capturing payment', [
+            'payment' => $payment->toArray(),
+        ]);
+
+        $paymentFromApi = $this->mercadoPagoService->capture(
+            $payment->external_id,
+            (float) $payment->amount,
+        );
+
+        $payment->update([
+            'data' => [
+                'id' => $paymentFromApi->id,
+                'status' => $paymentFromApi->status,
+                'status_detail' => $paymentFromApi->status_detail,
+                'payment_method_id' => $paymentFromApi->payment_method_id,
+                'payment_type_id' => $paymentFromApi->payment_type_id,
+                'issuer_id' => $paymentFromApi->issuer_id,
+                'installments' => $paymentFromApi->installments,
+                'transaction_amount' => $paymentFromApi->transaction_amount,
+                'description' => $paymentFromApi->description,
+                'payer' => $paymentFromApi->payer,
+                'type' => $payment->type,
+            ],
+            'status' => $paymentFromApi->status,
+        ]);
+
+        Log::info('Payment captured', [
+            'payment' => $payment->toArray(),
+        ]);
     }
 
     private function handleApprovedPayment(Payment $payment): void

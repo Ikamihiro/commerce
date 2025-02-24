@@ -18,36 +18,36 @@ class WebhookController extends Controller
     public function __invoke(Request $request)
     {
         try {
+            Log::info('Webhook request received', [
+                'payload' => $request->all()
+            ]);
+
             $payload = WebhookPayload::fromRequest($request);
 
             $this->webhookProcessor->process($payload);
-
-            return response()->json([
-                'status' => 'success',
-            ]);
         } catch (InvalidWebhookException $e) {
             Log::error('Invalid webhook request', [
                 'error' => $e->getMessage(),
-                'payload' => $request->all()
+                'payload' => $request->all(),
+                'stack' => $e->getTraceAsString()
             ]);
-
-            return response()->json(['error' => $e->getMessage()], 400);
         } catch (PaymentNotFoundException $e) {
             Log::error('Payment not found', [
                 'error' => $e->getMessage(),
-                'payload' => $request->all()
+                'payload' => $request->all(),
+                'stack' => $e->getTraceAsString()
             ]);
-
-            return response()->json(['error' => $e->getMessage()], 404);
         } catch (\Exception $e) {
             Log::error('Webhook processing failed', [
                 'error' => $e->getMessage(),
-                'payload' => $request->all()
+                'payload' => $request->all(),
+                'stack' => $e->getTraceAsString()
             ]);
-
-            return response()->json([
-                'error' => 'Internal server error',
-            ], 500);
         }
+
+        // Always return a success response to the webhook provider
+        return response()->json([
+            'status' => 'success',
+        ]);
     }
 }
