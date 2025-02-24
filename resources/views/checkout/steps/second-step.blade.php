@@ -2,12 +2,19 @@
     <div x-show="paymentMethodChose === false">
         <h2 class="text-xl font-semibold mb-4">Método de Pagamento</h2>
         <p class="text-gray-700 mb-2">Selecione uma forma de pagamento.</p>
-        <div class="mb-4">
-            <select id="payment_method" name="payment_method" class="block w-full border-gray-300 rounded-md shadow-sm"
-                required x-model="paymentMethod">
-                <option value="card">Cartão de crédito</option>
-                <option value="pix">Pix</option>
-            </select>
+        <div class="mb-4 flex space-x-4">
+            <div @click="selectPaymentMethod('card');"
+                class="flex-1 cursor-pointer p-4 border rounded-md shadow-sm flex flex-col items-center space-x-2"
+                :class="{ 'border-blue-500 border-2': paymentMethod === 'card' }">
+                <i class="ri-bank-card-fill ri-3x text-gray-700 mb-2"></i>
+                <span class="text-gray-700">Cartão de crédito</span>
+            </div>
+            <div @click="selectPaymentMethod('pix');"
+                class="flex-1 cursor-pointer p-4 border rounded-md shadow-sm flex flex-col items-center space-x-2"
+                :class="{ 'border-blue-500 border-2': paymentMethod === 'pix' }">
+                <i class="ri-pix-fill ri-3x text-gray-700 mb-2"></i>
+                <span class="text-gray-700">Pix</span>
+            </div>
         </div>
     </div>
 
