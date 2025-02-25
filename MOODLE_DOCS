@@ -1,0 +1,13 @@
+export MOODLE_DOCKER_WWWROOT=/home/joao/personal/moodle
+export MOODLE_DOCKER_DB=mariadb
+export MOODLE_DOCKER_DB_PORT=3306
+
+git clone -b MOODLE_403_STABLE git://git.moodle.org/moodle.git $MOODLE_DOCKER_WWWROOT
+
+cp config.docker-template.php $MOODLE_DOCKER_WWWROOT/config.php
+
+bin/moodle-docker-compose up -d
+
+TOKEN=bbb2f5f9a516d8de86b256b21123a13f
+ROLE_ID=5
+COURSE_ID=2

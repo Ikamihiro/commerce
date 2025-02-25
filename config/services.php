@@ -37,4 +37,9 @@ return [
         'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
         'idempotency_key' => env('MERCADO_PAGO_IDEMPOTENCY_KEY'),
     ],
+
+    'moodle' => [
+        'url' => env('MOODLE_URL'),
+        'token' => env('MOODLE_TOKEN'),
+    ]
 ];

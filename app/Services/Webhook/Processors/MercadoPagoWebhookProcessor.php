@@ -114,6 +114,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             'status' => 'approved',
         ]);
 
+        Log::info('Payment approved', [
+            'payment' => $payment->toArray(),
+        ]);
+
         ProcessStudentEnrollment::dispatch(
             $payment->order->student,
             $payment->order->course,
@@ -124,12 +128,21 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
                 $payment->order->course,
                 $payment->order->student,
             ));
+
+        Log::info('Student notified about enrollment', [
+            'student' => $payment->order->student->toArray(),
+            'course' => $payment->order->course->toArray(),
+        ]);
     }
 
     private function handleCancelledPayment(Payment $payment): void
     {
         $payment->order()->update([
             'status' => 'cancelled',
+        ]);
+
+        Log::info('Payment cancelled', [
+            'payment' => $payment->toArray(),
         ]);
 
         ProcessStudentUnenrollment::dispatch(
@@ -142,5 +155,10 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
                 $payment->order->course,
                 $payment->order->student,
             ));
+
+        Log::info('Student notified about unenrollment', [
+            'student' => $payment->order->student->toArray(),
+            'course' => $payment->order->course->toArray(),
+        ]);
     }
 }
