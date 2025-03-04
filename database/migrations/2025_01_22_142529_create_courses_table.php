@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('price');
             $table->string('cover');
             $table->string('video_url');
+            $table->string('external_id');
             $table->timestamps();
             $table->softDeletes();
         });

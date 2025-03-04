@@ -22,6 +22,7 @@ class CourseFactory extends Factory
             'price' => (string) $this->faker->randomFloat(2, 10, 100),
             'cover' => 'https://placehold.co/600x400',
             'video_url' => 'https://www.youtube.com/watch?v=6g4O5UOH304',
+            'external_id' => $this->faker->numberBetween(1, 1000),
         ];
     }
 }

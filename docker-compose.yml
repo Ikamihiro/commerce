@@ -74,12 +74,10 @@ services:
 
 networks:
     feics-commerce:
-        driver: bridge
+        name: feics/commerce
 
 volumes:
     feics-commerce-database:
         driver: local
     feics-commerce-redis:
-        driver: local
-    moodledata:
         driver: local
