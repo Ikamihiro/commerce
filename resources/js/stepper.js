@@ -156,6 +156,25 @@ export function Stepper(processRoute, coursePrice, courseId) {
                 this.step = 4;
                 this.paymentData = data.data;
                 this.loading = false;
+
+                if (this.paymentMethod === 'pix') {
+                    setInterval(() => {
+                        fetch(`/api/payment/${this.paymentData.id}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                            },
+                        }).then(response => response.json()).then(data => {
+                            if (data.status === 'approved') {
+                                clearInterval(this.intervalId);
+                                this.paymentData.status = 'approved';
+                            }
+                        }).catch(error => {
+                            console.error('Error checking payment status:', error);
+                        });
+                    }, 10000); // Check every 10 seconds
+                }
             });
         },
         getDataToProcessPayment() {

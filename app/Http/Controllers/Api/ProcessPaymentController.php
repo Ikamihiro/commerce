@@ -52,7 +52,7 @@ class ProcessPaymentController extends Controller
                 'status' => 'pending',
             ]);
 
-            $order->payments()->create([
+            $internalPayment = $order->payments()->create([
                 'external_id' => $payment['id'],
                 'status' => $payment['status'],
                 'amount' => $course->price,
@@ -62,6 +62,7 @@ class ProcessPaymentController extends Controller
             ]);
 
             $result = [
+                'id' => $internalPayment->id,
                 'status' => $payment['status'],
                 'transaction_amount' => $payment['transaction_amount'],
                 'payer_name' => $student->first_name . ' ' . $student->last_name,

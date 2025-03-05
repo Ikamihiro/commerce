@@ -68,7 +68,7 @@
             </button>
         </div>
 
-        <div x-show="paymentData.status !== 'failed'">
+        <div x-show="paymentData.status === 'pending'">
             <div class="p-6 space-y-6">
                 <div>
                     <h1 class="text-xl font-medium" x-text="'Pague R$ ' + paymentData?.transaction_amount + ' via Pix'">
@@ -133,6 +133,20 @@
                 <p class="text-sm text-gray-500">O Pix tem um limite diário de transferências. Para mais
                     informações, por favor, consulte seu banco.</p>
             </div>
+        </div>
+
+        <div x-show="paymentData.status === 'approved'" class="p-6 mb-12"
+            x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-90"
+            x-transition:enter-end="opacity-100 transform scale-100" x-transition:leave="transition ease-in duration-300"
+            x-transition:leave-start="opacity-100 transform scale-100"
+            x-transition:leave-end="opacity-0 transform scale-90">
+            <h2 class="text-xl font-semibold mb-2">Compra realizada com sucesso!</h2>
+            <p class="text-gray-700 mb-4">Você receberá um e-mail com os detalhes da sua compra.</p>
+
+            <button type="button" @click="window.location.href = '/'"
+                class="text-sm bg-blue-500 text-white px-4 py-2 rounded-lg">
+                Voltar para o Dashboard
+            </button>
         </div>
     </div>
 </div>

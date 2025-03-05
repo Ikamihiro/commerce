@@ -24,4 +24,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/payment/process', ProcessPaymentController::class)->name('payment.process');
-Route::get('/payment/{id}', GetPaymentStatusByIdController::class)->name('payment.show');
+Route::get('/payment/{payment}', GetPaymentStatusByIdController::class)->name('payment.status');
