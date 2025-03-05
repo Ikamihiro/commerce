@@ -2,22 +2,20 @@
 
 namespace App\Services\Payment\Processors;
 
-use MercadoPago\Client\Common\RequestOptions;
-use MercadoPago\Client\Payment\PaymentClient;
+use App\Services\Payment\MercadoPagoService;
+use Illuminate\Support\Facades\Log;
 use MercadoPago\Exceptions\MPApiException;
 
 class CardPaymentProcessor implements PaymentProcessorContract
 {
+    public function __construct(
+        private MercadoPagoService $mercadoPagoService
+    ) {}
+
     public function process(array $data)
     {
         try {
-            $client = new PaymentClient();
-            $requestOptions = new RequestOptions();
-            $requestOptions->setCustomHeaders([
-                "X-Idempotency-Key: " . config('services.mercadopago.idempotency_key'),
-            ]);
-
-            $response = $client->create([
+            $response = $this->mercadoPagoService->create([
                 "capture" => false,
                 'transaction_amount' => (float) $data['transaction_amount'],
                 'token' => $data['token'],
@@ -34,7 +32,7 @@ class CardPaymentProcessor implements PaymentProcessorContract
                         'number' => $data['payer']['identification']['number'],
                     ],
                 ],
-            ], $requestOptions);
+            ]);
 
             return [
                 'id' => $response->id,
@@ -50,6 +48,11 @@ class CardPaymentProcessor implements PaymentProcessorContract
                 'type' => 'card',
             ];
         } catch (MPApiException $e) {
+            Log::error([
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+                'stack' => $e->getTraceAsString(),
+            ]);
             throw new \Exception($e->getMessage(), $e->getCode());
         }
     }

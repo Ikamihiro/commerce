@@ -13,7 +13,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class PaymentProcessController extends Controller
+class ProcessPaymentController extends Controller
 {
     public function __invoke(Request $request)
     {
@@ -30,7 +30,7 @@ class PaymentProcessController extends Controller
             };
 
             /** @var PaymentProcessorContract $processer */
-            $payment = (new $processer())->process([
+            $payment = (resolve($processer))->process([
                 ...$request->all(),
                 'amount' => $course->price,
                 'description' => $course->name,

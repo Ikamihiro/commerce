@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Api\PaymentProcessController;
+use App\Http\Controllers\Api\GetPaymentStatusByIdController;
+use App\Http\Controllers\Api\ProcessPaymentController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -22,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/payment/process', PaymentProcessController::class)->name('payment.process');
+Route::post('/payment/process', ProcessPaymentController::class)->name('payment.process');
+Route::get('/payment/{id}', GetPaymentStatusByIdController::class)->name('payment.show');
