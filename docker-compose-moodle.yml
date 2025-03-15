@@ -21,11 +21,15 @@ services:
       - '8080:8080'
       - '8443:8443'
     environment:
+      - BITNAMI_DEBUG=true
+      - MOODLE_USERNAME=admin
+      - MOODLE_PASSWORD=@$enhaProducao@
       - MOODLE_DATABASE_HOST=mariadbmoodle
       - MOODLE_DATABASE_PORT_NUMBER=3307
       - MOODLE_DATABASE_USER=bn_moodle
       - MOODLE_DATABASE_NAME=bitnami_moodle
       - MOODLE_DATABASE_PASSWORD=@$enhaProducao@
+      - MOODLE_DATABASE_ROOT_PASSWORD=@$enhaProducao@
     volumes:
       - 'moodle_data:/bitnami/moodle'
       - 'moodledata_data:/bitnami/moodledata'
