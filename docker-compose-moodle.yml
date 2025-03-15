@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: APACHE-2.0
 
 services:
-  mariadb:
+  mariadbmoodle:
     image: docker.io/bitnami/mariadb:latest
     environment:
       # ALLOW_EMPTY_PASSWORD is recommended only for development.
@@ -21,7 +21,7 @@ services:
       - '8080:8080'
       - '8443:8443'
     environment:
-      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_HOST=mariadbmoodle
       - MOODLE_DATABASE_PORT_NUMBER=3307
       - MOODLE_DATABASE_USER=bn_moodle
       - MOODLE_DATABASE_NAME=bitnami_moodle
@@ -31,7 +31,7 @@ services:
       - 'moodle_data:/bitnami/moodle'
       - 'moodledata_data:/bitnami/moodledata'
     depends_on:
-      - mariadb
+      - mariadbmoodle
     extra_hosts:
       host.docker.internal: host-gateway
 volumes:
