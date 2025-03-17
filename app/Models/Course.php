@@ -21,4 +21,12 @@ class Course extends Model
     {
         return $this->hasMany(Order::class);
     }
+
+    public function modules()
+    {
+        return $this
+            ->belongsToMany(Module::class)
+            ->withPivot('order')
+            ->withTimestamps();
+    }
 }
