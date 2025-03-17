@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Course\CheckoutController;
 use App\Http\Controllers\Course\GetOneCourseController;
 use App\Http\Controllers\Landing\LandingController;
@@ -22,9 +23,13 @@ Route::get('/', LandingController::class)->name('landing');
 Route::get('/courses/{course}', GetOneCourseController::class)->name('courses.show');
 Route::get('/courses/{course}/checkout', CheckoutController::class)->name('courses.checkout');
 
-Route::get('/dashboard', function () {
+Route::get('/admin/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->name('dashboard')->middleware(['auth', 'verified']);
+
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('courses', CourseController::class)->except('show');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

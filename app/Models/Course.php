@@ -14,7 +14,9 @@ class Course extends Model
         'name',
         'description',
         'price',
-        'image',
+        'cover',
+        'video_url',
+        'external_id',
     ];
 
     public function orders()
