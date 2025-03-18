@@ -47,9 +47,9 @@
                                     {{ $course->name }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ $course->description }}
+                                    {{ $course->description_collapsed }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex flex-col">
                                     <a href="{{ route('admin.courses.edit', $course) }}"
                                         class="text-indigo-600 hover:text-indigo-900">{{ __('Edit') }}</a>
                                     <a href="{{ route('admin.courses.modules', $course) }}"
