@@ -21,7 +21,6 @@ class Module extends Model
     {
         return $this
             ->belongsToMany(Course::class)
-            ->withPivot('order')
-            ->withTimestamps();
+            ->withPivot('order');
     }
 }

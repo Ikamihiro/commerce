@@ -28,7 +28,6 @@ class Course extends Model
     {
         return $this
             ->belongsToMany(Module::class)
-            ->withPivot('order')
-            ->withTimestamps();
+            ->withPivot('order');
     }
 }

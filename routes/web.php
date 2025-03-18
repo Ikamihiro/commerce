@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CourseController;
+use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Course\CheckoutController;
 use App\Http\Controllers\Course\GetOneCourseController;
 use App\Http\Controllers\Landing\LandingController;
@@ -29,6 +30,13 @@ Route::get('/admin/dashboard', function () {
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('courses', CourseController::class)->except('show');
+
+    Route::get('courses/{course}/modules', [CourseController::class, 'modules'])->name('courses.modules');
+    Route::post('courses/{course}/modules/create-attach', [CourseController::class, 'createAndAttach'])->name('courses.modules.createAndAttach');
+    Route::post('courses/{course}/modules', [CourseController::class, 'attachModule'])->name('courses.modules.attach');
+    Route::delete('courses/{course}/modules/{module}', [CourseController::class, 'detachModule'])->name('courses.modules.detach');
+
+    Route::resource('modules', ModuleController::class)->except(['show', 'index']);
 });
 
 Route::middleware('auth')->group(function () {
