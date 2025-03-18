@@ -18,7 +18,8 @@
                         </label>
                         <input
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="name" type="text" name="name" value="{{ $course->name }}" required>
+                            id="name" type="text" name="name" value="{{ old('name', $course->name) }}"
+                            required>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
@@ -26,7 +27,7 @@
                         </label>
                         <textarea
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="description" name="description" required>{{ $course->description }}</textarea>
+                            id="description" name="description" required>{{ old('description', $course->description) }}</textarea>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
@@ -34,7 +35,8 @@
                         </label>
                         <input
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="price" type="number" name="price" value="{{ $course->price }}" required>
+                            id="price" type="number" name="price" value="{{ old('price', $course->price) }}"
+                            required>
                     </div>
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="image">
@@ -43,6 +45,30 @@
                         <input
                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             id="image" type="file" name="image">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="video_url">
+                            {{ __('Video URL') }}
+                        </label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="video_url" type="text" name="video_url"
+                            value="{{ old('video_url', $course->video_url) }}" required>
+                        @error('video_url')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        @enderror
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="external_id">
+                            {{ __('Moodle ID') }}
+                        </label>
+                        <input
+                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="external_id" type="text" name="external_id"
+                            value="{{ old('external_id', $course->external_id) }}" required>
+                        @error('external_id')
+                            <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                        @enderror
                     </div>
                     <div class="flex items-center justify-between">
                         <button

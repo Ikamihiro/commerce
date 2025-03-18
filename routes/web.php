@@ -36,7 +36,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::post('courses/{course}/modules', [CourseController::class, 'attachModule'])->name('courses.modules.attach');
     Route::delete('courses/{course}/modules/{module}', [CourseController::class, 'detachModule'])->name('courses.modules.detach');
 
-    Route::resource('modules', ModuleController::class)->except(['show', 'index']);
+    Route::resource('modules', ModuleController::class)->except(['show']);
 });
 
 Route::middleware('auth')->group(function () {

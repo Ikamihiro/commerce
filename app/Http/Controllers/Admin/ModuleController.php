@@ -8,6 +8,22 @@ use App\Models\Module;
 
 class ModuleController extends Controller
 {
+    public function index(Request $request)
+    {
+        $modules = Module::latest()
+            ->when($request->search, function ($query) use ($request) {
+                return $query->where('name', 'like', '%' . $request->search . '%');
+            })
+            ->paginate(10);
+
+        return view('admin.modules.index', compact('modules'));
+    }
+
+    public function create()
+    {
+        return view('admin.modules.create');
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -18,16 +34,17 @@ class ModuleController extends Controller
 
         Module::create($request->all());
 
-        return redirect()->back()->with('success', 'Module created successfully.');
+        return redirect()
+            ->route('admin.modules.index')
+            ->with('success', 'Module created successfully.');
     }
 
-    public function edit($id)
+    public function edit(Module $module)
     {
-        $module = Module::findOrFail($id);
         return view('admin.modules.edit', compact('module'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Module $module)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -35,15 +52,15 @@ class ModuleController extends Controller
             'class_hours' => 'required|numeric',
         ]);
 
-        $module = Module::findOrFail($id);
         $module->update($request->all());
 
-        return redirect()->back()->with('success', 'Module updated successfully.');
+        return redirect()
+            ->route('admin.modules.index')
+            ->with('success', 'Module updated successfully.');
     }
 
-    public function destroy($id)
+    public function destroy(Module $module)
     {
-        $module = Module::findOrFail($id);
         $module->delete();
 
         return redirect()->route('admin.modules.index')->with('success', 'Module deleted successfully.');

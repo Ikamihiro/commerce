@@ -8,12 +8,12 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-xl sm:rounded-lg p-6">
-                <h3 class="text-lg font-medium text-gray-900 mb-4">Attach a module</h3>
+                <h3 class="text-lg font-medium text-gray-900 mb-4">{{ __('Attach a module') }}</h3>
                 <div id="attach-module-form" class="">
                     <form action="{{ route('admin.courses.modules.attach', $course) }}" method="POST">
                         @csrf
                         <div class="mb-4 flex justify-between items-center">
-                            <span class="text-sm md:text-md">Assunto:</span>
+                            <span class="text-sm md:text-md">{{ __('Modules') }}:</span>
                             <select class="hidden" id="modules">
                                 @foreach ($modules as $module)
                                     @if (!$course->modules->contains($module))
@@ -54,7 +54,7 @@
                                                         </div>
                                                     </template>
                                                     <div x-show="selected.length == 0" class="flex-1">
-                                                        <input placeholder="select a module"
+                                                        <input placeholder="{{ __('select a module') }}"
                                                             class="border-0 text-end bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800"
                                                             x-bind:value="selectedValues()">
                                                     </div>
@@ -117,11 +117,11 @@
                         </div>
                         <div class="flex justify-end">
                             <button onclick="toggleCreateModuleForm()" type="button"
-                                class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">Create
-                                New Module</button>
+                                class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
+                                {{ __('Create New Module') }}</button>
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">Attach
-                                Module</button>
+                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
+                                {{ __('Attach Module') }}</button>
                         </div>
                     </form>
                 </div>
@@ -130,42 +130,46 @@
                     <form action="{{ route('admin.courses.modules.createAndAttach', $course) }}" method="POST">
                         @csrf
                         <div class="mb-4">
-                            <label for="name" class="block text-sm font-medium text-gray-700">Module Name</label>
+                            <label for="name"
+                                class="block text-sm font-medium text-gray-700">{{ __('Module Name') }}</label>
                             <input type="text" id="name" name="name"
                                 class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                         </div>
                         <div class="mb-4">
-                            <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
+                            <label for="description"
+                                class="block text-sm font-medium text-gray-700">{{ __('Description') }}</label>
                             <textarea id="description" name="description"
                                 class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></textarea>
                         </div>
                         <div class="mb-4">
-                            <label for="class_hours" class="block text-sm font-medium text-gray-700">Class Hours</label>
+                            <label for="class_hours"
+                                class="block text-sm font-medium text-gray-700">{{ __('Class Hours') }}</label>
                             <input type="number" id="class_hours" name="class_hours"
                                 class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                         </div>
                         <div class="flex justify-end">
                             <button onclick="toggleCreateModuleForm()" type="button"
-                                class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">Select
-                                Module</button>
+                                class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
+                                {{ __('Select Module') }}</button>
                             <button type="submit"
-                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">Create
-                                Module</button>
+                                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
+                                {{ __('Create Module') }}</button>
                         </div>
                     </form>
                 </div>
             </div>
 
             <div class="mt-8">
-                <h3 class="text-lg font-medium text-gray-900">Modules</h3>
+                <h3 class="text-lg font-medium text-gray-900">{{ __('Modules') }}</h3>
                 <ul class="mt-4 border-t border-gray-200 divide-y divide-gray-200">
                     @foreach ($course->modules as $module)
                         <li class="py-4 flex items-center justify-between">
                             <div>
-                                <h4 class="text-sm font-medium text-gray-900"> {{ $module->pivot->order }}
+                                <h4 class="text-lg font-medium text-gray-900"> Módulo {{ $module->pivot->order }} -
                                     {{ $module->name }}</h4>
-                                <p class="text-sm text-gray-500">{{ $module->description }}</p>
-                                <p class="text-sm text-gray-500">Class Hours: {{ $module->class_hours }}</p>
+                                <p class="text-md text-gray-500">{{ $module->description }}</p>
+                                <p class="text-md text-gray-500">{{ __('Class Hours') }}: {{ $module->class_hours }}
+                                </p>
                             </div>
                             <div>
                                 <form action="{{ route('admin.courses.modules.detach', [$course, $module]) }}"
@@ -174,7 +178,7 @@
                                     @method('DELETE')
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 active:bg-red-600 disabled:opacity-25 transition">
-                                        Detach
+                                        {{ __('Detach') }}
                                     </button>
                                 </form>
                             </div>
