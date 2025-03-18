@@ -49,9 +49,19 @@ class CourseController extends Controller
             ->with('success', 'Course created successfully.');
     }
 
-    public function edit(Course $course)
+    public function edit(Request $request, Course $course)
     {
-        return view('admin.courses.edit', compact('course'));
+        $modules = Module::query()
+            ->when($request->last_id, function ($query) use ($request) {
+                $query->where('id', '>', $request->last_id);
+            })
+            ->limit(10)
+            ->get();
+
+        $course->load('modules');
+        $modulesOfCourse = $course->modules->pluck('id');
+
+        return view('admin.courses.edit', compact('course', 'modules', 'modulesOfCourse'));
     }
 
     public function update(Request $request, Course $course)
@@ -123,7 +133,7 @@ class CourseController extends Controller
         $module = Module::create($request->all());
         $course->modules()->attach($module->id, ['order' => $course->modules->count() + 1]);
 
-        return redirect()->route('admin.courses.modules', $course)
+        return redirect()->route('admin.courses.edit', $course)
             ->with('success', 'Module created and attached successfully.');
     }
 
@@ -137,7 +147,7 @@ class CourseController extends Controller
             return [$module => ['order' => $lastOrder + $index + 1]];
         })->toArray());
 
-        return redirect()->route('admin.courses.modules', $course)
+        return redirect()->route('admin.courses.edit', $course)
             ->with('success', 'Module attached successfully.');
     }
 
@@ -146,7 +156,7 @@ class CourseController extends Controller
         $course->load('modules');
         $course->modules()->detach($module->id);
 
-        return redirect()->route('admin.courses.modules', $course)
+        return redirect()->route('admin.courses.edit', $course)
             ->with('success', 'Module detached successfully.');
     }
 }
