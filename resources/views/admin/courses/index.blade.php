@@ -52,10 +52,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex flex-col">
                                     <a href="{{ route('admin.courses.edit', $course) }}"
                                         class="text-indigo-600 hover:text-indigo-900">{{ __('Edit') }}</a>
-                                    <a href="{{ route('admin.courses.modules', $course) }}"
+                                    {{-- <a href="{{ route('admin.courses.modules', $course) }}"
                                         class="text-indigo-600 hover:text-blue-900">
                                         {{ __('Modules') }}
-                                    </a>
+                                    </a> --}}
                                     <form action="{{ route('admin.courses.destroy', $course) }}" method="POST"
                                         class="inline-block">
                                         @csrf
