@@ -165,7 +165,7 @@
                     @foreach ($course->modules as $module)
                         <li class="py-4 flex items-center justify-between">
                             <div>
-                                <h4 class="text-lg font-medium text-gray-900"> Módulo {{ $module->pivot->order }} -
+                                <h4 class="text-lg font-medium text-gray-900"> {{__('Module')}} {{$module->pivot->order}} -
                                     {{ $module->name }}</h4>
                                 <p class="text-md text-gray-500">{{ $module->description }}</p>
                                 <p class="text-md text-gray-500">{{ __('Class Hours') }}: {{ $module->class_hours }}
