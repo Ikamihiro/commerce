@@ -36,6 +36,7 @@ return [
         'runtime_mode' => env('MERCADO_PAGO_RUNTIME_MODE'),
         'access_token' => env('MERCADO_PAGO_ACCESS_TOKEN'),
         'idempotency_key' => env('MERCADO_PAGO_IDEMPOTENCY_KEY'),
+        'webhook_secret' => env('MERCADO_PAGO_WEBHOOK_SECRET'),
     ],
 
     'moodle' => [

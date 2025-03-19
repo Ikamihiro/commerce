@@ -19,8 +19,13 @@ class WebhookController extends Controller
     {
         try {
             Log::info('Webhook request received', [
-                'payload' => $request->all()
+                'payload' => $request->all(),
+                'headers' => $request->headers->all(),
             ]);
+
+            if (!$this->isValidPayload($request)) {
+                throw new InvalidWebhookException('HMAC verification failed');
+            }
 
             $payload = WebhookPayload::fromRequest($request);
 
@@ -31,6 +36,11 @@ class WebhookController extends Controller
                 'payload' => $request->all(),
                 'stack' => $e->getTraceAsString()
             ]);
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid webhook request',
+            ], 400);
         } catch (PaymentNotFoundException $e) {
             Log::error('Payment not found', [
                 'error' => $e->getMessage(),
@@ -49,5 +59,61 @@ class WebhookController extends Controller
         return response()->json([
             'status' => 'success',
         ]);
+    }
+
+    private function isValidPayload(Request $request): bool
+    {
+        $xSignature = $request->header('x-signature');
+        $xRequestId = $request->header('x-request-id');
+
+        if (!$xSignature || !$xRequestId) {
+            Log::warning('Webhook request missing signature or request ID');
+            return false;
+        }
+
+        Log::info([
+            'x-signature' => $xSignature,
+            'x-request-id' => $xRequestId,
+            'query' => $request->query(),
+        ]);
+
+        $dataID = $request->input('data.id') ?? '';
+
+        $parts = explode(',', $xSignature);
+        $ts = null;
+        $hash = null;
+
+        foreach ($parts as $part) {
+            $keyValue = explode('=', $part, 2);
+            if (count($keyValue) == 2) {
+                $key = trim($keyValue[0]);
+                $value = trim($keyValue[1]);
+                if ($key === "ts") {
+                    $ts = $value;
+                } elseif ($key === "v1") {
+                    $hash = $value;
+                }
+            }
+        }
+
+        if (!$ts || !$hash) {
+            Log::warning('Invalid webhook signature format');
+            return false;
+        }
+
+        $secret = config('services.mercadopago.webhook_secret');
+        Log::info($secret);
+        $manifest = "id:$dataID;request-id:$xRequestId;ts:$ts;";
+        $generatedHash = hash_hmac('sha256', $manifest, $secret);
+
+        if (!hash_equals($generatedHash, $hash)) {
+            Log::error('HMAC verification failed', [
+                'expected' => $generatedHash,
+                'received' => $hash
+            ]);
+            return false;
+        }
+
+        return true;
     }
 }
