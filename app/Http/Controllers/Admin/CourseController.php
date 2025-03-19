@@ -75,7 +75,7 @@ class CourseController extends Controller
             'external_id' => 'nullable|string|max:255',
         ]);
 
-        $imagePath = $course->image;
+        $imagePath = $course->cover;
 
         if ($request->hasFile('image')) {
             if (Storage::exists($course->image)) {
