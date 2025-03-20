@@ -24,12 +24,18 @@ services:
             - feics-commerce
         depends_on:
             - mariadb
-            - mailpit
+            # - mailpit
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                reservations:
+                    memory: 256M
 
     mariadb:
         image: 'mariadb:11'
-        ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
+        # ports:
+        #     - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
             MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
             MYSQL_ROOT_HOST: '%'
@@ -50,11 +56,17 @@ services:
                 - '--innodb_initialized'
             retries: 3
             timeout: 5s
+        deploy:
+            resources:
+                limits:
+                    memory: 512M
+                reservations:
+                    memory: 256M
 
     redis:
         image: 'redis:alpine'
-        ports:
-            - '${FORWARD_REDIS_PORT:-6379}:6379'
+        # ports:
+        #     - '${FORWARD_REDIS_PORT:-6379}:6379'
         volumes:
             - 'feics-commerce-redis:/data'
         networks:
@@ -63,14 +75,26 @@ services:
             test: [ "CMD", "redis-cli", "ping" ]
             retries: 3
             timeout: 5s
+        deploy:
+            resources:
+                limits:
+                    memory: 256M
+                reservations:
+                    memory: 128M
 
-    mailpit:
-        image: 'axllent/mailpit:latest'
-        ports:
-            - '${FORWARD_MAILPIT_PORT:-1025}:1025'
-            - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
-        networks:
-            - feics-commerce
+    # mailpit:
+    #     image: 'axllent/mailpit:latest'
+    #     ports:
+    #         - '${FORWARD_MAILPIT_PORT:-1025}:1025'
+    #         - '${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025'
+    #     networks:
+    #         - feics-commerce
+    #     deploy:
+    #         resources:
+    #             limits:
+    #                 memory: 128M
+    #             reservations:
+    #                 memory: 64M
 
 networks:
     feics-commerce:

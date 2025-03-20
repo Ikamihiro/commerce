@@ -49,7 +49,6 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
 
     private function isValidPayload(WebhookPayload $payload): bool
     {
-        // TODO: valid signature also
         return $payload->type === 'payment';
     }
 
@@ -145,20 +144,20 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
             'payment' => $payment->toArray(),
         ]);
 
-        ProcessStudentUnenrollment::dispatch(
-            $payment->order->student,
-            $payment->order->course,
-        );
+        // ProcessStudentUnenrollment::dispatch(
+        //     $payment->order->student,
+        //     $payment->order->course,
+        // );
 
-        Mail::to($payment->order->student->email)
-            ->send(new OrderCancelled(
-                $payment->order->course,
-                $payment->order->student,
-            ));
+        // Mail::to($payment->order->student->email)
+        //     ->send(new OrderCancelled(
+        //         $payment->order->course,
+        //         $payment->order->student,
+        //     ));
 
-        Log::info('Student notified about unenrollment', [
-            'student' => $payment->order->student->toArray(),
-            'course' => $payment->order->course->toArray(),
-        ]);
+        // Log::info('Student notified about unenrollment', [
+        //     'student' => $payment->order->student->toArray(),
+        //     'course' => $payment->order->course->toArray(),
+        // ]);
     }
 }
