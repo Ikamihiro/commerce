@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 class Course extends Model
 {
@@ -38,6 +39,15 @@ class Course extends Model
             get: fn() => strlen($this->description) >= 80
                 ? substr($this->description, 0, 80) . "..."
                 : $this->description
+        );
+    }
+
+    protected function coverUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->cover
+                ? Storage::url($this->cover)
+                : null
         );
     }
 }
