@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Course\CheckoutController;
 use App\Http\Controllers\Course\GetOneCourseController;
+use App\Http\Controllers\Landing\GetAllCoursesController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WebhookController;
@@ -21,8 +22,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', LandingController::class)->name('landing');
+Route::get('/courses', GetAllCoursesController::class)->name('courses.index');
 Route::get('/courses/{course}', GetOneCourseController::class)->name('courses.show');
 Route::get('/courses/{course}/checkout', CheckoutController::class)->name('courses.checkout');
+Route::get('/contact', function () {
+    return view('contact');
+})->name('contact');
 
 Route::get('/admin/dashboard', function () {
     return view('dashboard');

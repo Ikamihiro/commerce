@@ -106,21 +106,6 @@ class CourseController extends Controller
             ->with('success', 'Course deleted successfully.');
     }
 
-    public function modules(Request $request, Course $course)
-    {
-        $modules = Module::query()
-            ->when($request->last_id, function ($query) use ($request) {
-                $query->where('id', '>', $request->last_id);
-            })
-            ->limit(10)
-            ->get();
-
-        $course->load('modules');
-        $modulesOfCourse = $course->modules->pluck('id');
-
-        return view('admin.courses.manage', compact('course', 'modules', 'modulesOfCourse'));
-    }
-
     public function createAndAttach(Request $request, Course $course)
     {
         $request->validate([

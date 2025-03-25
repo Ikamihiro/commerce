@@ -1,11 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Edit Course') }}
+            Editar Curso
         </h2>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-12 px-4">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-xl sm:rounded-lg p-6">
                 <div x-data="{ tab: 'details' }">
@@ -13,18 +13,18 @@
                         <nav class="-mb-px flex space-x-8">
                             <a href="#" @click.prevent="tab = 'details'"
                                 :class="{ 'border-indigo-500 text-indigo-600': tab === 'details', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': tab !== 'details' }"
-                                class="whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                                {{ __('Details') }}
+                                class="whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm">
+                                Detalhes
                             </a>
                             <a href="#" @click.prevent="tab = 'assing-modules'"
                                 :class="{ 'border-indigo-500 text-indigo-600': tab === 'assing-modules', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': tab !== 'assing-modules' }"
-                                class="whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                                {{ __('Assign Modules') }}
+                                class="whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm">
+                                Associar Módulo
                             </a>
                             <a href="#" @click.prevent="tab = 'modules'"
                                 :class="{ 'border-indigo-500 text-indigo-600': tab === 'modules', 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300': tab !== 'settings' }"
-                                class="whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm">
-                                {{ __('Modules of Course') }}
+                                class="whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-xs sm:text-sm">
+                                Módulos
                             </a>
                         </nav>
                     </div>
@@ -35,7 +35,7 @@
                             @method('PUT')
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                                    {{ __('Name') }}
+                                    Nome
                                 </label>
                                 <input
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -47,7 +47,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                                    {{ __('Description') }}
+                                    Descrição
                                 </label>
                                 <textarea
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -58,7 +58,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
-                                    {{ __('Price') }}
+                                    Preço
                                 </label>
                                 <input
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -70,7 +70,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="image">
-                                    {{ __('Image') }}
+                                    Foto de capa
                                 </label>
                                 <input
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -81,7 +81,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="video_url">
-                                    {{ __('Video URL') }}
+                                    Video URL
                                 </label>
                                 <input
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -93,7 +93,7 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="external_id">
-                                    {{ __('Moodle ID') }}
+                                   Moodle ID
                                 </label>
                                 <input
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -107,7 +107,7 @@
                                 <button
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                                     type="submit">
-                                    {{ __('Update Course') }}
+                                    Salvar
                                 </button>
                             </div>
                         </form>
@@ -117,7 +117,7 @@
                             <form action="{{ route('admin.courses.modules.attach', $course) }}" method="POST">
                                 @csrf
                                 <div class="mb-4 flex justify-between items-center">
-                                    <span class="text-sm md:text-md">{{ __('Modules') }}:</span>
+                                    <span class="text-sm md:text-md">Módulos:</span>
                                     <select class="hidden" id="modules">
                                         @foreach ($modules as $module)
                                             @if (!$course->modules->contains($module))
@@ -159,7 +159,7 @@
                                                                 </div>
                                                             </template>
                                                             <div x-show="selected.length == 0" class="flex-1">
-                                                                <input placeholder="{{ __('select a module') }}"
+                                                                <input placeholder="selecione um Módulo"
                                                                     class="border-0 text-end bg-transparent p-1 px-2 appearance-none outline-none h-full w-full text-gray-800"
                                                                     x-bind:value="selectedValues()">
                                                             </div>
@@ -228,10 +228,12 @@
                                 <div class="flex justify-end">
                                     <button onclick="toggleCreateModuleForm()" type="button"
                                         class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
-                                        {{ __('Create New Module') }}</button>
+                                       Criar novo Módulo
+                                    </button>
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
-                                        {{ __('Attach Module') }}</button>
+                                        Associar Módulos
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -242,29 +244,30 @@
                                 @csrf
                                 <div class="mb-4">
                                     <label for="name"
-                                        class="block text-sm font-medium text-gray-700">{{ __('Module Name') }}</label>
+                                        class="block text-sm font-medium text-gray-700">Nome do Módulo</label>
                                     <input type="text" id="name" name="name"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                 </div>
                                 <div class="mb-4">
                                     <label for="description"
-                                        class="block text-sm font-medium text-gray-700">{{ __('Description') }}</label>
+                                        class="block text-sm font-medium text-gray-700">Descrição</label>
                                     <textarea id="description" name="description"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></textarea>
                                 </div>
                                 <div class="mb-4">
                                     <label for="class_hours"
-                                        class="block text-sm font-medium text-gray-700">{{ __('Class Hours') }}</label>
+                                        class="block text-sm font-medium text-gray-700">Carga horária</label>
                                     <input type="number" id="class_hours" name="class_hours"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                 </div>
                                 <div class="flex justify-end">
                                     <button onclick="toggleCreateModuleForm()" type="button"
                                         class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
-                                        {{ __('Select Module') }}</button>
+                                        Selecionar um Módulo
+                                    </button>
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
-                                        {{ __('Create Module') }}</button>
+                                        Criar Módulo</button>
                                 </div>
                             </form>
                         </div>
@@ -274,11 +277,11 @@
                             @foreach ($course->modules as $module)
                                 <li class="py-4 flex items-center justify-between">
                                     <div>
-                                        <h4 class="text-lg font-medium text-gray-900"> {{ __('Module') }}
+                                        <h4 class="text-lg font-medium text-gray-900"> Módulo
                                             {{ $module->pivot->order }} -
                                             {{ $module->name }}</h4>
                                         <p class="text-md text-gray-500">{{ $module->description }}</p>
-                                        <p class="text-md text-gray-500">{{ __('Class Hours') }}: {{ $module->class_hours }}
+                                        <p class="text-md text-gray-500">Carga horária: {{ $module->class_hours }}
                                         </p>
                                     </div>
                                     <div>
@@ -288,7 +291,7 @@
                                             @method('DELETE')
                                             <button type="submit"
                                                 class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-500 focus:outline-none focus:border-red-700 focus:ring focus:ring-red-200 active:bg-red-600 disabled:opacity-25 transition">
-                                                {{ __('Unassign') }}
+                                                Desassociar
                                             </button>
                                         </form>
                                     </div>

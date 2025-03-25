@@ -19,53 +19,92 @@
 </head>
 
 <body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-            <!-- Primary Navigation Menu -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex">
+    <div class="relative min-h-screen bg-gray-100">
+        <nav x-data="{ open: false }">
+            <div class="bg-white text-gray-700 border-b border-gray-100">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-28">
+                    <div class="flex justify-between w-full">
                         <!-- Logo -->
                         <div class="shrink-0 flex items-center">
-                            <a href="{{ route('dashboard') }}">
-                                {{-- <x-application-logo class="block h-9 w-auto fill-current text-gray-800" /> --}}
-                                Floodlle
+                            <a href="{{ route('landing') }}">
+                                <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                             </a>
                         </div>
 
-                        <!-- Navigation Links -->
-                        <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                            <x-nav-link :href="route('landing')" :active="request()->routeIs('landing')">
-                                {{ __('Início') }}
-                            </x-nav-link>
+                        <!-- Redes Sociais -->
+                        <div class="hidden sm:flex sm:items-center space-x-4">
+                            <a href="https://www.facebook.com/faculdade.feics"
+                                class="text-gray-500 hover:text-blue-500">
+                                <i class="ri-facebook-circle-line ri-xl"></i>
+                            </a>
+                            <a href="https://www.instagram.com/faculdade.feics"
+                                class="text-gray-500 hover:text-blue-500">
+                                <i class="ri-instagram-line ri-xl"></i>
+                            </a>
+                            <a href="https://www.youtube.com/@faculdadefeics" class="text-gray-500 hover:text-blue-500">
+                                <i class="ri-youtube-line ri-xl"></i>
+                            </a>
+
+                            <!-- Telefone -->
+                            <a href="#" class="flex items-center space-x-2 text-gray-500 hover:text-blue-500">
+                                <i class="ri-phone-line"></i>
+                                <span class="text-sm">(65) 99659-0085</span>
+                            </a>
+
+                            <!-- Email -->
+                            <a href="mailto:feics@feics.com.br"
+                                class="flex items-center space-x-2 text-gray-500 hover:text-blue-500">
+                                <i class="ri-mail-line"></i>
+                                <span class="text-sm">feics@feics.com.br</span>
+                            </a>
+                        </div>
+
+                        <div class="-me-2 flex items-center sm:hidden">
+                            <button @click="open = ! open"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 focus:outline-none transition duration-150 ease-in-out">
+                                <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                    <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 6h16M4 12h16M4 18h16" />
+                                    <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"
+                                        stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Hamburger -->
-                    <div class="-me-2 flex items-center sm:hidden">
-                        <button @click="open = ! open"
-                            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                                <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16" />
-                                <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"
-                                    stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12" />
-                            </svg>
-                        </button>
+                <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
+                    <div class="pt-2 pb-3 space-y-1 border-t border-gray-100">
+                        <a href="{{ route('landing') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
+                            Página Inicial
+                        </a>
+                        <a href="{{ route('courses.index') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
+                            Cursos
+                        </a>
+                        <a href="{{ route('contact') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
+                            Contato
+                        </a>
                     </div>
                 </div>
             </div>
-
-            <!-- Responsive Navigation Menu -->
-            <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
-                <div class="pt-2 pb-3 space-y-1">
-                    <x-responsive-nav-link :href="route('landing')" :active="request()->routeIs('landing')">
-                        {{ __('Início') }}
-                    </x-responsive-nav-link>
+            <div class="hidden md:block bg-blue-500 text-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between w-full h-20">
+                        <div class="space-x-8 -my-px ms-10 flex">
+                            <a href="{{ route('landing') }}" class="inline-flex items-center px-1 pt-1">
+                                Página Inicial
+                            </a>
+                            <a href="{{ route('courses.index') }}" class="inline-flex items-center px-1 pt-1">
+                                Cursos
+                            </a>
+                            <a href="{{ route('contact') }}" class="inline-flex items-center px-1 pt-1">
+                                Contato
+                            </a>
+                        </div>
+                    </div>
                 </div>
-
             </div>
         </nav>
 
