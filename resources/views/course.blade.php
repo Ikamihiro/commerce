@@ -1,5 +1,5 @@
 <x-landing-layout>
-    <section class="pt-16 pb-16">
+    <section class="pt-16 pb-16 text-gray-700">
         <h2 class="text-3xl md:text-5xl font-semibold text-center mb-8">{{ $course->name }}</h2>
         <span class="block w-full text-center text-lg md:text-3xl mb-8">{{ $course->description }}</span>
 
@@ -25,6 +25,7 @@
                     <div class="relative bg-white shadow-md rounded-lg p-6">
                         <h4 class="text-xl font-semibold mb-4">>> {{ $module->name }}</h4>
                         <p class="text-gray-700">{{ $module->description }}</p>
+                        <div class="text-sm text-gray-700 mt-4">Carga horária: {{ $module->class_hours }} horas</div>
                         <div class="absolute right-3 top-3">
                             <div class="text-xs">Módulo {{$module->pivot->order}}</div>
                         </div>

@@ -27,10 +27,11 @@
                                 Nome
                             </th>
                             <th scope="col"
-                                class="hidden md:block px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                                 Descrição
                             </th>
                             <th scope="col"
+                                width="100"
                                 class="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Ações
                             </th>
@@ -45,10 +46,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $course->name }}
                                 </td>
-                                <td class="hidden md:block px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden sm:table-cell">
                                     {{ $course->description_collapsed }}
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium flex">
+                                <td width="100" class="px-6 py-4 whitespace-nowrap text-sm font-medium flex">
                                     <a href="{{ route('admin.courses.edit', $course) }}"
                                         class="text-indigo-600 hover:text-indigo-900 mr-2">
                                         <i class="ri-edit-line ri-xl"></i>

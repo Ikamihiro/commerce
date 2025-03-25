@@ -31,7 +31,7 @@ class CourseController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'video_url' => 'nullable|string|max:255',
@@ -68,7 +68,7 @@ class CourseController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'required|string|max:255',
+            'description' => 'required|string',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'video_url' => 'nullable|string|max:255',
@@ -78,8 +78,8 @@ class CourseController extends Controller
         $imagePath = $course->cover;
 
         if ($request->hasFile('image')) {
-            if (Storage::exists($course->image)) {
-                Storage::delete($course->image);
+            if (Storage::exists($course->cover)) {
+                Storage::delete($course->cover);
             }
 
             $imagePath = $request->file('image')->store('public/courses');

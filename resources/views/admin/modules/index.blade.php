@@ -27,11 +27,11 @@
                                 Nome
                             </th>
                             <th scope="col"
-                                class="hidden md:block px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="hidden sm:table-cell px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Descrição
                             </th>
                             <th scope="col"
-                                class="hidden md:block px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                class="hidden sm:table-cell px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Carga horária
                             </th>
                             <th scope="col"
@@ -49,10 +49,10 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $module->name }}
                                 </td>
-                                <td class="hidden md:block px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $module->description_collapsed }}
                                 </td>
-                                <td class="hidden md:block px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                <td class="hidden sm:table-cell px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $module->class_hours }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
