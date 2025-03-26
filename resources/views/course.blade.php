@@ -12,7 +12,7 @@
         <div class="flex justify-center mt-8">
             <a href="{{ route('courses.checkout', $course->id) }}"
                 class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-xl md:text-2xl">
-                Compre agora o curso
+                {{ $course->buy_button_text ?? 'Comprar curso' }}
             </a>
         </div>
 
@@ -27,7 +27,7 @@
                         <p class="text-gray-700">{{ $module->description }}</p>
                         <div class="text-sm text-gray-700 mt-4">Carga horária: {{ $module->class_hours }} horas</div>
                         <div class="absolute right-3 top-3">
-                            <div class="text-xs">Módulo {{$module->pivot->order}}</div>
+                            <div class="text-xs">Módulo {{ $module->pivot->order }}</div>
                         </div>
                     </div>
                 @endforeach

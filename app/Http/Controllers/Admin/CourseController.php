@@ -36,6 +36,7 @@ class CourseController extends Controller
             'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'video_url' => 'nullable|string|max:255',
             'external_id' => 'nullable|string|max:255',
+            'buy_button_text' => 'nullable|string|max:255',
         ]);
 
         $imagePath = $request->file('image')->store('public/courses');
@@ -73,6 +74,7 @@ class CourseController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'video_url' => 'nullable|string|max:255',
             'external_id' => 'nullable|string|max:255',
+            'buy_button_text' => 'nullable|string|max:255',
         ]);
 
         $imagePath = $course->cover;

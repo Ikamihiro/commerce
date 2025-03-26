@@ -93,13 +93,25 @@
                             </div>
                             <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="external_id">
-                                   Moodle ID
+                                    Moodle ID
                                 </label>
                                 <input
                                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     id="external_id" type="text" name="external_id"
                                     value="{{ old('external_id', $course->external_id) }}" required>
                                 @error('external_id')
+                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="buy_button_text">
+                                    Texto do botão de compra
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="buy_button_text" type="text" name="buy_button_text"
+                                    value="{{ old('buy_button_text', $course->buy_button_text) }}" required>
+                                @error('buy_button_text')
                                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -228,7 +240,7 @@
                                 <div class="flex justify-end">
                                     <button onclick="toggleCreateModuleForm()" type="button"
                                         class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
-                                       Criar novo Módulo
+                                        Criar novo Módulo
                                     </button>
                                     <button type="submit"
                                         class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring focus:ring-indigo-200 active:bg-indigo-600 disabled:opacity-25 transition">
@@ -243,8 +255,8 @@
                                 method="POST">
                                 @csrf
                                 <div class="mb-4">
-                                    <label for="name"
-                                        class="block text-sm font-medium text-gray-700">Nome do Módulo</label>
+                                    <label for="name" class="block text-sm font-medium text-gray-700">Nome do
+                                        Módulo</label>
                                     <input type="text" id="name" name="name"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                 </div>
@@ -255,8 +267,8 @@
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"></textarea>
                                 </div>
                                 <div class="mb-4">
-                                    <label for="class_hours"
-                                        class="block text-sm font-medium text-gray-700">Carga horária</label>
+                                    <label for="class_hours" class="block text-sm font-medium text-gray-700">Carga
+                                        horária</label>
                                     <input type="number" id="class_hours" name="class_hours"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                 </div>
