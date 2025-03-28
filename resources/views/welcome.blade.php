@@ -1,5 +1,5 @@
 <x-landing-layout>
-    <section class="mt-16">
+    <section class="my-16">
         <h2 class="text-3xl font-semibold text-center mb-8 text-gray-700">Cursos em Destaque</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             @foreach ($courses as $course)
