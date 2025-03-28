@@ -15,6 +15,11 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
+                <form method="GET" action="{{ route('admin.modules.index') }}" class="mb-4 px-6 py-4">
+                    <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar módulos..."
+                        class="border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 w-full">
+                </form>
+
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead>
                         <tr>

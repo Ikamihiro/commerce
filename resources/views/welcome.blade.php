@@ -21,7 +21,7 @@
                                 <p class="text-xs w-full grow mt-4"><i class="ri-team-fill mr-2"></i>
                                     {{ $course->students_number }} assistindo</p>
                                 <a href="{{ route('courses.show', $course->id) }}"
-                                    class="hidden sm:block px-4 py-2 text-sm text-white mt-4 border border-white rounded hover:bg-white hover:text-black">Mais
+                                    class="px-4 py-2 text-sm text-white mt-4 border border-white rounded hover:bg-white hover:text-black">Mais
                                     detalhes</a>
                             </div>
                         </div>

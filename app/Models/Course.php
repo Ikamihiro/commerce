@@ -36,6 +36,11 @@ class Course extends Model
             ->withPivot('order');
     }
 
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
+
     protected function descriptionCollapsed(): Attribute
     {
         return Attribute::make(

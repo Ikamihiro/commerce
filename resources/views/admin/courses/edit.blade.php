@@ -1,8 +1,21 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Editar Curso
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                Editar Curso
+            </h2>
+
+            <div class="flex space-x-4">
+                <a href="{{ route('admin.courses.index') }}"
+                    class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                    Voltar para a lista de cursos
+                </a>
+                <a href="{{ route('admin.courses.questions', $course) }}"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Ver lista de perguntas
+                </a>
+            </div>
+        </div>
     </x-slot>
 
     <div class="py-12 px-4">
