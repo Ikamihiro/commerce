@@ -18,7 +18,7 @@
 
         <div class="mt-20 pt-20 border-t border-gray-200">
             <h3 class="text-3xl font-semibold text-center mb-8">
-                Conteúdo do curso
+                O que você vai aprender
             </h3>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 @foreach ($course->modules as $module)
@@ -28,6 +28,35 @@
                         <div class="text-sm text-gray-700 mt-4">Carga horária: {{ $module->class_hours }} horas</div>
                         <div class="absolute right-3 top-3">
                             <div class="text-xs">Módulo {{ $module->pivot->order }}</div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <div class="mt-20 pt-20 border-t border-gray-200">
+            <h3 class="text-3xl font-semibold text-center mb-8">
+                Perguntas frequentes
+            </h3>
+            <div class="space-y-4">
+                @foreach ($course->questions as $question)
+                    <div x-data="{ open: false }" class="bg-white border border-gray-300 rounded-lg">
+                        <button @click="open = !open"
+                            class="w-full text-left px-6 py-4 flex justify-between items-center">
+                            <span class="text-xl font-semibold">{{ $question->title }}</span>
+                            <svg x-show="!open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 4v16m8-8H4" />
+                            </svg>
+                            <svg x-show="open" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M20 12H4m8 8V4" />
+                            </svg>
+                        </button>
+                        <div x-show="open" x-collapse class="px-6 py-4 text-gray-700">
+                            {{ $question->answer }}
                         </div>
                     </div>
                 @endforeach
