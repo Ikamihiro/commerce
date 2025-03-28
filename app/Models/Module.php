@@ -15,6 +15,7 @@ class Module extends Model
         'name',
         'description',
         'class_hours',
+        'classes_number',
         'details',
     ];
 

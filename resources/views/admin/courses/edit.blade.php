@@ -115,6 +115,18 @@
                                     <p class="text-red-500 text-xs italic">{{ $message }}</p>
                                 @enderror
                             </div>
+                            <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="students_number">
+                                    Quantidade de alunos
+                                </label>
+                                <input
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="students_number" type="number" name="students_number"
+                                    value="{{ old('students_number', $course->students_number) }}" required>
+                                @error('students_number')
+                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                @enderror
+                            </div>
                             <div class="flex items-center justify-between">
                                 <button
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
@@ -272,6 +284,12 @@
                                     <input type="number" id="class_hours" name="class_hours"
                                         class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                                 </div>
+                                <div class="mb-4">
+                                    <label for="classes_number"
+                                        class="block text-sm font-medium text-gray-700">Quantidade de aulas</label>
+                                    <input type="number" id="classes_number" name="classes_number"
+                                        class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
+                                </div>
                                 <div class="flex justify-end">
                                     <button onclick="toggleCreateModuleForm()" type="button"
                                         class="mr-4 inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-green-500 focus:outline-none focus:border-green-700 focus:ring focus:ring-green-200 active:bg-green-600 disabled:opacity-25 transition">
@@ -288,13 +306,13 @@
                         <ul class="divide-y divide-gray-200">
                             @foreach ($course->modules as $module)
                                 <li class="py-4 flex items-center justify-between">
-                                    <div>
-                                        <h4 class="text-lg font-medium text-gray-900"> Módulo
+                                    <div class="w-full mr-2">
+                                        <h4 class="text-lg font-medium text-gray-900 mb-1"> Módulo
                                             {{ $module->pivot->order }} -
                                             {{ $module->name }}</h4>
-                                        <p class="text-md text-gray-500">{{ $module->description }}</p>
-                                        <p class="text-md text-gray-500">Carga horária: {{ $module->class_hours }}
-                                        </p>
+                                        <p class="text-md text-gray-500 mt-1">{{ $module->description }}</p>
+                                        <p class="text-md text-gray-500">Carga horária: {{ $module->class_hours }}</p>
+                                        <p class="text-md text-gray-500">Quantida de aulas: {{ $module->classes_number }}</p>
                                     </div>
                                     <div>
                                         <form action="{{ route('admin.courses.modules.detach', [$course, $module]) }}"

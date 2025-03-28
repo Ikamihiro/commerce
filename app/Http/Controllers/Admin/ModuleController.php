@@ -30,6 +30,7 @@ class ModuleController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'class_hours' => 'required|numeric',
+            'classes_number' => 'required|numeric',
         ]);
 
         Module::create($request->all());
@@ -50,6 +51,7 @@ class ModuleController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'class_hours' => 'required|numeric',
+            'classes_number' => 'required|numeric',
         ]);
 
         $module->update($request->all());

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('courses', function (Blueprint $table) {
             $table->string('color')->default('#69b0ef');
             $table->string('buy_button_text')->default('Compre agora o curso');
+            $table->integer('students_number')->default(0);
         });
     }
 
@@ -23,7 +24,9 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('courses', function (Blueprint $table) {
-            //
+            $table->dropColumn('color');
+            $table->dropColumn('buy_button_text');
+            $table->dropColumn('students_number');
         });
     }
 };

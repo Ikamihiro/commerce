@@ -21,6 +21,7 @@ class Course extends Model
         'external_id',
         'color',
         'buy_button_text',
+        'students_number',
     ];
 
     public function orders()
@@ -50,6 +51,27 @@ class Course extends Model
             get: fn() => $this->cover
                 ? Storage::url($this->cover)
                 : null
+        );
+    }
+
+    protected function totalClassHours(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->modules->sum('class_hours')
+        );
+    }
+
+    protected function formattedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => number_format($this->price, 2, ',', '.')
+        );
+    }
+
+    protected function totalClassesNumber(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->modules->sum('classes_number')
         );
     }
 }
