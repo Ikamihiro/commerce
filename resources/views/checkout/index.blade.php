@@ -1,25 +1,36 @@
 <x-checkout-layout>
-    <div x-data="Stepper('{{ route('payment.process') }}', '{{ $course->price }}', '{{ $course->id }}')" x-cloak>
+    <div x-data="Stepper('{{ route('payment.process') }}', '{{ $course->price }}', '{{ $course->id }}')" x-cloak x-init="init()">
         @include('checkout.components.loading')
-        @include('checkout.components.steps')
+        {{-- @include('checkout.components.steps') --}}
 
         <form id="form-checkout" x-transition>
             <input type="hidden" name="course_id" value="{{ $course->id }}">
 
             <div class="my-8">
-                @include('checkout.steps.first-step')
-                @include('checkout.steps.second-step')
-                @include('checkout.steps.third-step', ['course' => $course])
-                @include('checkout.steps.fourth-step')
+                <div x-show="confirmed === false">
+                    @include('checkout.steps.first-step')
+                    @include('checkout.steps.second-step')
+                </div>
+                {{-- @include('checkout.steps.third-step', ['course' => $course]) --}}
+                <div x-show="confirmed === true">
+                    @include('checkout.steps.fourth-step')
+                </div>
             </div>
 
-            @include('checkout.components.navigation')
+            {{-- @include('checkout.components.navigation') --}}
+            <div x-show="confirmed === false" class="flex justify-end mt-8">
+                <button type="submit" id="submit-button" class="bg-green-500 text-white font-bold py-2 px-4 rounded">
+                    Comprar agora
+                </button>
+            </div>
         </form>
     </div>
 
     <script src="https://sdk.mercadopago.com/js/v2"></script>
     <script defer>
-        window.mp = new MercadoPago("{{ config('services.mercado_pago.public_key') }}");
+        window.mp = new MercadoPago("{{ config('services.mercado_pago.public_key') }}", {
+            locale: "pt-BR"
+        });
 
         (async function getIdentificationTypes() {
             try {

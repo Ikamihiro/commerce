@@ -1,78 +1,28 @@
 export function Stepper(processRoute, coursePrice, courseId) {
     return {
-        step: 1,
         paymentMethod: 'card',
         paymentMethodChose: false,
         paymentData: {},
         cardForm: {},
         loading: false,
         errors: {},
-        error: null,
-        next() {
-            if (!this.validateStep()) {
-                return;
-            }
-            if (this.step === 2 && this.paymentMethodChose === false) {
-                this.buildPaymentForm();
-                return;
-            }
-            this.step++;
-
-        },
-        prev() {
-            if (this.step === 2 && this.paymentMethodChose === true) {
-                this.paymentMethodChose = false;
-                return;
-            }
-            this.step--;
+        confirmed: false,
+        init() {
+            this.selectPaymentMethod('card');
         },
         selectPaymentMethod(method) {
             this.paymentMethod = method;
-            this.next();
-        },
-        validateStep() {
-            if (this.step === 1) {
-                return this.validatePersonalInfo();
-            }
-            if (this.step === 2) {
-                return this.validatePaymentMethod();
-            }
-
-            return true;
-        },
-        validate(fields = []) {
-            let errors = {};
-            fields.forEach(field => {
-                if (!document.getElementById(field).value) {
-                    errors[field] = 'Campo obrigatório';
-                }
-            });
-            this.errors = errors;
-            return Object.keys(errors).length === 0;
-        },
-        validatePersonalInfo() {
-            return this.validate([
-                'payer_first_name',
-                'payer_last_name',
-                'payer_email',
-                'payer_identification_type',
-                'payer_identification_number',
-            ]);
-        },
-        validatePaymentMethod() {
-            return this.paymentMethod === 'card' || this.paymentMethod === 'pix';
-        },
-        buildPaymentForm() {
+            // this.paymentMethodChose = true;
             if (this.paymentMethod === 'card') {
                 this.buildCardForm();
             }
             if (this.paymentMethod === 'pix') {
                 this.buildPixForm();
             }
-            this.paymentMethodChose = true;
+            // this.paymentMethodChose = true;
         },
         buildCardForm() {
-            const cardForm = window.mp.cardForm({
+            const cardFormInstance = window.mp.cardForm({
                 amount: coursePrice,
                 iframe: true,
                 form: {
@@ -108,16 +58,20 @@ export function Stepper(processRoute, coursePrice, courseId) {
                             return console.warn("Form Mounted handling error: ", error);
                         }
                         console.log("Form mounted");
+                        this.paymentMethodChose = true;
                     },
-                    onSubmit: event => {
+                    onSubmit: (event) => {
                         event.preventDefault();
+                        if (!this.validatePaymentData()) {
+                            return;
+                        }
                         const {
                             paymentMethodId: payment_method_id,
                             issuerId: issuer_id,
                             amount,
                             token,
                             installments,
-                        } = cardForm.getCardFormData();
+                        } = cardFormInstance.getCardFormData();
                         this.cardForm = {
                             payment_method_id,
                             issuer_id,
@@ -129,7 +83,18 @@ export function Stepper(processRoute, coursePrice, courseId) {
                     },
                     onFetching: (resource) => {
                         console.log("Fetching resource: ", resource);
-                    }
+                    },
+                    onError: (errorResponse) => {
+                        let errors = {};
+                        for (let error of errorResponse) {
+                            let errorSplited = error['message'].split(' ');
+                            errors[errorSplited[0]] = errorSplited.slice(1).join(' ');
+                        }
+                        this.errors = {
+                            ...this.errors,
+                            ...errors,
+                        };
+                    },
                 },
             });
         },
@@ -138,8 +103,12 @@ export function Stepper(processRoute, coursePrice, courseId) {
             let checkoutForm = document.getElementById("form-checkout");
             checkoutForm.addEventListener("submit", (event) => {
                 event.preventDefault();
+                if (!this.validatePaymentData()) {
+                    return;
+                }
                 this.callProcessPaymentRoute();
             });
+            this.paymentMethodChose = true;
         },
         callProcessPaymentRoute() {
             this.loading = true;
@@ -153,10 +122,9 @@ export function Stepper(processRoute, coursePrice, courseId) {
             }).then(response => {
                 return response.json();
             }).then(data => {
-                this.step = 4;
+                this.confirmed = true;
                 this.paymentData = data.data;
                 this.loading = false;
-
                 if (this.paymentMethod === 'pix') {
                     setInterval(() => {
                         fetch(`/api/payment/${this.paymentData.id}`, {
@@ -176,6 +144,28 @@ export function Stepper(processRoute, coursePrice, courseId) {
                     }, 10000); // Check every 10 seconds
                 }
             });
+        },
+        validate(fields = []) {
+            let errors = {};
+            fields.forEach(field => {
+                if (!document.getElementById(field).value) {
+                    errors[field] = 'Campo obrigatório';
+                }
+            });
+            this.errors = {
+                ...this.errors,
+                ...errors,
+            };
+            return Object.keys(errors).length === 0;
+        },
+        validatePaymentData() {
+            return this.validate([
+                'payer_first_name',
+                'payer_last_name',
+                'payer_email',
+                'payer_identification_type',
+                'payer_identification_number',
+            ]) && (this.paymentMethod === 'card' || this.paymentMethod === 'pix');
         },
         getDataToProcessPayment() {
             if (this.paymentMethod === 'card') {
