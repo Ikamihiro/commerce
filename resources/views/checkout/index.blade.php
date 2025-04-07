@@ -1,4 +1,16 @@
 <x-checkout-layout>
+    <div class="flex items-center mb-8">
+        <div class="w-[6rem] h-[6rem]">
+            <img src="{{ $course->cover_url }}" alt="{{ $course->name }}"
+                class="inset-0 h-full transform transition-transform duration-300 hover:scale-105 hover:shadow-xl mx-auto rounded">
+        </div>
+        <div class="grow flex flex-col justify-center ml-4">
+            <h1 class="text-lg font-bold mb-2">{{ $course->name }}</h1>
+            <p class="text-sm text-gray-700 ">Parcele em até <strong class="text-lg text-blue-500">10 vezes sem juros</strong></p>
+            <p class="text-sm text-gray-700">Ou <strong class="text-md text-blue-500">R$ {{ $course->price }}</strong> à vista</p>
+        </div>
+    </div>
+
     <div x-data="Stepper('{{ route('payment.process') }}', '{{ $course->price }}', '{{ $course->id }}')" x-cloak x-init="init()">
         @include('checkout.components.loading')
         {{-- @include('checkout.components.steps') --}}

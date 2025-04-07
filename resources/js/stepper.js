@@ -12,14 +12,12 @@ export function Stepper(processRoute, coursePrice, courseId) {
         },
         selectPaymentMethod(method) {
             this.paymentMethod = method;
-            // this.paymentMethodChose = true;
             if (this.paymentMethod === 'card') {
                 this.buildCardForm();
             }
             if (this.paymentMethod === 'pix') {
                 this.buildPixForm();
             }
-            // this.paymentMethodChose = true;
         },
         buildCardForm() {
             const cardFormInstance = window.mp.cardForm({
@@ -62,9 +60,6 @@ export function Stepper(processRoute, coursePrice, courseId) {
                     },
                     onSubmit: (event) => {
                         event.preventDefault();
-                        if (!this.validatePaymentData()) {
-                            return;
-                        }
                         const {
                             paymentMethodId: payment_method_id,
                             issuerId: issuer_id,
@@ -94,6 +89,9 @@ export function Stepper(processRoute, coursePrice, courseId) {
                             ...this.errors,
                             ...errors,
                         };
+                        if (!this.validatePaymentData()) {
+                            return;
+                        }
                     },
                 },
             });

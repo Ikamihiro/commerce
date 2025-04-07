@@ -9,7 +9,7 @@
 
         <button type="button" @click="window.location.href = '/'"
             class="text-sm bg-blue-500 text-white px-4 py-2 rounded-lg">
-            Voltar para o Dashboard
+            Voltar para página inicial
         </button>
     </div>
 
@@ -146,7 +146,7 @@
 
         <button type="button" @click="window.location.href = '/'"
             class="text-sm bg-blue-500 text-white px-4 py-2 rounded-lg">
-            Voltar para o Dashboard
+            Voltar para página inicial
         </button>
     </div>
 </div>
