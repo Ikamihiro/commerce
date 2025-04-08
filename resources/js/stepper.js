@@ -1,4 +1,4 @@
-export function Stepper(processRoute, coursePrice, courseId) {
+export function Stepper(processRoute, coursePrice, courseId, maxInstallments) {
     return {
         paymentMethod: 'card',
         paymentMethodChose: false,
@@ -93,6 +93,12 @@ export function Stepper(processRoute, coursePrice, courseId) {
                             return;
                         }
                     },
+                    onInstallmentsReceived: (data) => {
+                        console.log(cardFormInstance.get);
+                        // if (installments.length > maxInstallments) {
+                        //     this.errors['installments'] = `Máximo de ${maxInstallments} parcelas`;
+                        // }
+                    }
                 },
             });
         },

@@ -38,6 +38,7 @@ class CourseController extends Controller
             'external_id' => 'nullable|string|max:255',
             'buy_button_text' => 'nullable|string|max:255',
             'students_number' => 'nullable|integer',
+            'max_installments' => 'nullable|integer',
         ]);
 
         $imagePath = $request->file('image')->store('public/courses');
@@ -77,6 +78,7 @@ class CourseController extends Controller
             'external_id' => 'nullable|string|max:255',
             'buy_button_text' => 'nullable|string|max:255',
             'students_number' => 'nullable|integer',
+            'max_installments' => 'nullable|integer',
         ]);
 
         $imagePath = $course->cover;

@@ -22,6 +22,7 @@ class Course extends Model
         'color',
         'buy_button_text',
         'students_number',
+        'max_installments',
     ];
 
     public function orders()
