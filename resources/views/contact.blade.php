@@ -1,6 +1,8 @@
 <x-landing-layout>
     <section class="my-16">
+        <h3 class="text-2xl font-bold mb-8 text-center">Contato</h3>
         <div class="mx-auto p-6 bg-white shadow-md rounded">
+
             <form action="{{ route('contact.store') }}" method="POST">
                 @csrf
 
