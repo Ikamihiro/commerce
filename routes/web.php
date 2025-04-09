@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Course\CheckoutController;
 use App\Http\Controllers\Course\GetOneCourseController;
+use App\Http\Controllers\Landing\ContactController;
 use App\Http\Controllers\Landing\GetAllCoursesController;
 use App\Http\Controllers\Landing\LandingController;
 use App\Http\Controllers\ProfileController;
@@ -26,9 +27,8 @@ Route::get('/', LandingController::class)->name('landing');
 Route::get('/courses', GetAllCoursesController::class)->name('courses.index');
 Route::get('/courses/{course}', GetOneCourseController::class)->name('courses.show');
 Route::get('/courses/{course}/checkout', CheckoutController::class)->name('courses.checkout');
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact');
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 Route::get('/admin/dashboard', function () {
     return view('dashboard');

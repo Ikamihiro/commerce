@@ -83,7 +83,7 @@
                         <a href="{{ route('courses.index') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
                             Cursos
                         </a>
-                        <a href="{{ route('contact') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
+                        <a href="{{ route('contact.index') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
                             Contato
                         </a>
                     </div>
@@ -99,7 +99,7 @@
                             <a href="{{ route('courses.index') }}" class="inline-flex items-center px-1 pt-1">
                                 Cursos
                             </a>
-                            <a href="{{ route('contact') }}" class="inline-flex items-center px-1 pt-1">
+                            <a href="{{ route('contact.index') }}" class="inline-flex items-center px-1 pt-1">
                                 Contato
                             </a>
                         </div>
