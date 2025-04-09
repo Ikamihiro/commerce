@@ -31,8 +31,6 @@ class ContactController extends Controller
                 contactMessage: $request->input('message')
             ));
 
-        Alert::success('Mensagem enviada com sucesso!', 'Agradecemos o seu contato. Nossa equipe entrará em contato em breve.');
-
         return redirect()->route('contact.index');
     }
 }
