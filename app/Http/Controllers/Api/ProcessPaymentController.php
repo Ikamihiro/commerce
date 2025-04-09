@@ -42,7 +42,7 @@ class ProcessPaymentController extends Controller
                 'first_name' => $request->input('payer.first_name'),
                 'last_name' => $request->input('payer.last_name'),
                 'email' => $request->input('payer.email'),
-                'password' => 'feics@2025',
+                'password' => '25#Feics@2025',
             ]);
 
             /** @var Order $order */
