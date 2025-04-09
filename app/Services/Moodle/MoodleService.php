@@ -77,16 +77,13 @@ class MoodleService
             'values' => [$student->email],
         ]);
 
-        Log::info('User exists', [
-            'user' => $userExists,
-        ]);
-        // if (!empty($userExists)) {
-        //     Log::info('User already exists', [
-        //         'user' => $userExists,
-        //     ]);
+        if (!empty($userExists)) {
+            Log::info('User already exists', [
+                'user' => $userExists,
+            ]);
 
-        //     return $userExists[0];
-        // }
+            return $userExists[0];
+        }
 
         $studentData = [
             'username' => $student->email,
