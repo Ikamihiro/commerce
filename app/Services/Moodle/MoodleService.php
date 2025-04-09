@@ -72,6 +72,22 @@ class MoodleService
 
     public function createUserToStudent(Student $student): array
     {
+        $userExists = $this->client->request('core_user_get_users_by_field', [
+            'field' => 'username',
+            'values' => [$student->email],
+        ]);
+
+        Log::info('User exists', [
+            'user' => $userExists,
+        ]);
+        // if (!empty($userExists)) {
+        //     Log::info('User already exists', [
+        //         'user' => $userExists,
+        //     ]);
+
+        //     return $userExists[0];
+        // }
+
         $studentData = [
             'username' => $student->email,
             'password' => $student->password,

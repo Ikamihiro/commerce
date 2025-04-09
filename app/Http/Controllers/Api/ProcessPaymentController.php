@@ -49,7 +49,6 @@ class ProcessPaymentController extends Controller
             $order = Order::create([
                 'student_id' => $student->id,
                 'course_id' => $course->id,
-                'user_id' => auth()->id(),
                 'status' => 'pending',
             ]);
 
