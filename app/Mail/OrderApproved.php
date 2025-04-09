@@ -29,7 +29,7 @@ class OrderApproved extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Order Approved',
+            subject: 'FEICS - Pagamento de Curso Aprovado',
         );
     }
 

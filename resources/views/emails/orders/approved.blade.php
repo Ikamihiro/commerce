@@ -32,11 +32,11 @@
 
 <body>
     <div class="container">
-        <h1>Pedido Aprovado</h1>
+        <h1>Pagamento de Curso Aprovado</h1>
 
-        <p>Olá, <strong>{{ $student->first_name }}</strong>!</p>
+        <p>Prezado(a) <strong>{{ $student->first_name }}</strong></p>
 
-        <p>Seu pedido do curso <strong>{{ $course->name }}</strong> foi aprovado.</p>
+        <p>Seu pedido do Curso <strong>{{ $course->name }}</strong> foi aprovado.</p>
         <p>Sua matrícula está sendo processada e em breve você receberá um e-mail com as informações de acesso.</p>
 
         <p>Desde já, agradecemos a preferência.</p>
