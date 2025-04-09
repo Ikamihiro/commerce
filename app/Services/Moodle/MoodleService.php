@@ -78,7 +78,6 @@ class MoodleService
             'firstname' => $student->first_name,
             'lastname' => $student->last_name,
             'email' => $student->email,
-            'createpassword' => true,
         ];
 
         Log::info('Creating user to student', [

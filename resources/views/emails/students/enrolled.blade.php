@@ -32,19 +32,21 @@
 
 <body>
     <div class="container">
-        <h1>Matrícula Aprovada</h1>
+        <p>Prezado(a) <strong>{{ $student->first_name }}</strong></p>
 
-        <p>Olá, <strong>{{ $student->first_name }}</strong>!</p>
+        <p>Seja bem vindo ao Curso <strong>{{ $course->name }}</strong></p>
 
-        <p>Sua matrícula no curso {{ $course->name }} foi aprovada.</p>
+        <p>Acesse a sua área do curso.</p>
 
-        <p>Segue abaixo as informações de acesso para plataforma Moodle:</p>
+        <p>Dados para acessar:</p>
         <ul>
+            <li><strong>Site de acesso:</strong> <a href="https://ava.floodlle.com">https://ava.floodlle.com</a></li>
             <li><strong>E-mail:</strong> {{ $student->email }}</li>
             <li><strong>Senha:</strong> {{ $student->password }}</li>
         </ul>
 
-        <p>Desde já, agradecemos a preferência.</p>
+        <p>Estamos esperando você no Curso <strong>{{ $course->name }}</strong>..</p>
+        <p>Um grande abraço.</p>
 
         <div class="footer">
             {{ config('app.name') }}
