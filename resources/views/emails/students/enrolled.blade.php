@@ -1,21 +1,6 @@
-{{-- <x-mail::message>
-# Matrícula Aprovada
-
-Olá, {{ $student->first_name }}!
-
-Sua matrícula no curso {{ $course->name }} foi aprovada.<br>
-
-Segue abaixo as informações de acesso:<br>
-**E-mail:** {{ $student->email }}<br>
-**Senha:** teste<br>
-
-Desde já, agradecemos a preferência.<br>
-
-{{ config('app.name') }}
-</x-mail::message> --}}
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
@@ -23,6 +8,7 @@ Desde já, agradecemos a preferência.<br>
             line-height: 1.6;
             color: #333;
         }
+
         .container {
             width: 80%;
             margin: 0 auto;
@@ -31,9 +17,11 @@ Desde já, agradecemos a preferência.<br>
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+
         h1 {
             color: #4CAF50;
         }
+
         .footer {
             margin-top: 20px;
             font-size: 0.9em;
@@ -41,6 +29,7 @@ Desde já, agradecemos a preferência.<br>
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Matrícula Aprovada</h1>
@@ -52,7 +41,7 @@ Desde já, agradecemos a preferência.<br>
         <p>Segue abaixo as informações de acesso para plataforma Moodle:</p>
         <ul>
             <li><strong>E-mail:</strong> {{ $student->email }}</li>
-            <li><strong>Senha:</strong> teste</li>
+            <li><strong>Senha:</strong> {{ $student->password }}</li>
         </ul>
 
         <p>Desde já, agradecemos a preferência.</p>
@@ -62,5 +51,5 @@ Desde já, agradecemos a preferência.<br>
         </div>
     </div>
 </body>
-</html>
 
+</html>

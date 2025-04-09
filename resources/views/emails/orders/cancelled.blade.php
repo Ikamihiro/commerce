@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
@@ -7,6 +8,7 @@
             line-height: 1.6;
             color: #333;
         }
+
         .container {
             width: 80%;
             margin: 0 auto;
@@ -15,9 +17,11 @@
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+
         h1 {
             color: #3f3f3f;
         }
+
         .footer {
             margin-top: 20px;
             font-size: 0.9em;
@@ -25,6 +29,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Pedido Cancelado</h1>
@@ -41,4 +46,5 @@
         </div>
     </div>
 </body>
+
 </html>

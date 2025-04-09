@@ -1,19 +1,6 @@
-{{-- <x-mail::message>
-# Matrícula Cancelada
-
-Olá, {{ $student->first_name }}!
-
-Sua matrícula no curso {{ $course->name }} foi cancelada.<br>
-
-Caso tenha alguma dúvida, entre em contato conosco.<br>
-
-Desde já, agradecemos a preferência.<br>
-
-{{ config('app.name') }}
-</x-mail::message> --}}
-
 <!DOCTYPE html>
 <html>
+
 <head>
     <style>
         body {
@@ -21,6 +8,7 @@ Desde já, agradecemos a preferência.<br>
             line-height: 1.6;
             color: #333;
         }
+
         .container {
             width: 80%;
             margin: 0 auto;
@@ -29,9 +17,11 @@ Desde já, agradecemos a preferência.<br>
             border-radius: 5px;
             background-color: #f9f9f9;
         }
+
         h1 {
             color: #3f3f3f;
         }
+
         .footer {
             margin-top: 20px;
             font-size: 0.9em;
@@ -39,6 +29,7 @@ Desde já, agradecemos a preferência.<br>
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Matrícula Cancelada</h1>
@@ -55,5 +46,5 @@ Desde já, agradecemos a preferência.<br>
         </div>
     </div>
 </body>
-</html>
 
+</html>
