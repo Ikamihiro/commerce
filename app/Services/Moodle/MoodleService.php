@@ -89,6 +89,10 @@ class MoodleService
             'users' => [$studentData],
         ]);
 
+        Log::info('User create response', [
+            'response' => $response,
+        ]);
+
         return $response[0];
     }
 }
