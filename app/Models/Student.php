@@ -15,6 +15,7 @@ class Student extends Model
         'last_name',
         'email',
         'document',
+        'password',
     ];
 
     public function orders()
