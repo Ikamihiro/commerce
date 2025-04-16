@@ -29,11 +29,17 @@
                         <select name="status" id="status"
                             class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <option value="">Todos</option>
-                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pendente
+                            <option value="pending" {{ request('status') == 'authorized' ? 'selected' : '' }}>
+                                Autorizado
                             </option>
-                            <option value="completed" {{ request('status') == 'completed' ? 'selected' : '' }}>Concluído
+                            <option value="completed" {{ request('status') == 'approved' ? 'selected' : '' }}>
+                                Aprovado
                             </option>
-                            <option value="canceled" {{ request('status') == 'canceled' ? 'selected' : '' }}>Cancelado
+                            <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>
+                                Cancelado
+                            </option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
+                                Cancelado
                             </option>
                         </select>
                     </div>
@@ -178,7 +184,8 @@
                                             Status: <span :class="{
                                                 'bg-blue-100 text-blue-800': payment.status === 'authorized',
                                                 'bg-green-100 text-green-800': payment.status === 'approved',
-                                                'bg-red-100 text-red-800': payment.status === 'canceled'
+                                                'bg-red-100 text-red-800': payment.status === 'canceled',
+                                                'bg-yellow-100 text-yellow-800': payment.status === 'pending',
                                             }" class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800" x-text="payment.status"></span>
                                         </p>
                                     </div>

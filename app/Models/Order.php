@@ -39,6 +39,7 @@ class Order extends Model
                 'authorized' => 'Autorizado',
                 'approved' => 'Aprovado',
                 'cancelled' => 'Cancelado',
+                'pending' => 'Pendente',
                 default => 'Desconhecido',
             },
         );
