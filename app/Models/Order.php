@@ -36,9 +36,9 @@ class Order extends Model
     {
         return Attribute::make(
             get: fn ($value, $attributes) => match ($attributes['status']) {
-                'pending' => 'Pendente',
-                'paid' => 'Pago',
-                'refunded' => 'Reembolsado',
+                'authorized' => 'Autorizado',
+                'approved' => 'Aprovado',
+                'cancelled' => 'Cancelado',
                 default => 'Desconhecido',
             },
         );
