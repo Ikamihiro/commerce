@@ -42,6 +42,10 @@
                                 class="block ps-3 pe-4 py-2 block ps-3 pe-4 py-2 @if (request()->routeIs('admin.modules.index')) text-blue-500 @endif">
                                 Módulos
                             </a>
+                            <a href="{{ route('admin.orders.index') }}"
+                                class="block ps-3 pe-4 py-2 block ps-3 pe-4 py-2 @if (request()->routeIs('admin.orders.index')) text-blue-500 @endif">
+                                Pedidos
+                            </a>
                         </div>
 
                         <div class="-me-2 flex items-center sm:hidden">
@@ -73,6 +77,10 @@
                         <a href="{{ route('admin.modules.index') }}"
                             class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2 @if (request()->routeIs('admin.modules.index')) text-blue-500 @endif">
                             Módulos
+                        </a>
+                        <a href="{{ route('admin.orders.index') }}"
+                            class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2 @if (request()->routeIs('admin.orders.index')) text-blue-500 @endif">
+                            Pedidos
                         </a>
                     </div>
                 </div>
