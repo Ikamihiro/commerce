@@ -46,6 +46,12 @@
                                 class="block ps-3 pe-4 py-2 block ps-3 pe-4 py-2 @if (request()->routeIs('admin.orders.index')) text-blue-500 @endif">
                                 Pedidos
                             </a>
+                            <a href="{{ route('logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                class="block ps-3 pe-4 py-2 text-red-500">
+                                <span>Logout</span>
+                                <i class="ri-logout-box-line"></i>
+                            </a>
                         </div>
 
                         <div class="-me-2 flex items-center sm:hidden">
@@ -82,10 +88,19 @@
                             class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2 @if (request()->routeIs('admin.orders.index')) text-blue-500 @endif">
                             Pedidos
                         </a>
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                            class="block w-full ps-3 pe-4 py-2 text-red-500">
+                            <span>Logout</span>
+                            <i class="ri-logout-box-line"></i>
+                        </a>
                     </div>
                 </div>
             </div>
         </nav>
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+            @csrf
+        </form>
 
         @if (isset($header))
             <header class="bg-white shadow">
