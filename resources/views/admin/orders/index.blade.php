@@ -110,7 +110,7 @@
                     </tbody>
                 </table>
 
-                <div class="mt-4">
+                <div class="mt-4 p-4">
                     {{ $orders->links() }}
                 </div>
             </div>
