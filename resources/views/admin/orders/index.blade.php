@@ -29,10 +29,10 @@
                         <select name="status" id="status"
                             class="mt-1 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <option value="">Todos</option>
-                            <option value="pending" {{ request('status') == 'authorized' ? 'selected' : '' }}>
+                            <option value="authorized" {{ request('status') == 'authorized' ? 'selected' : '' }}>
                                 Autorizado
                             </option>
-                            <option value="completed" {{ request('status') == 'approved' ? 'selected' : '' }}>
+                            <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>
                                 Aprovado
                             </option>
                             <option value="cancelled" {{ request('status') == 'cancelled' ? 'selected' : '' }}>
