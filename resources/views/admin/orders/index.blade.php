@@ -39,7 +39,7 @@
                                 Cancelado
                             </option>
                             <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>
-                                Cancelado
+                                Pendente
                             </option>
                         </select>
                     </div>
