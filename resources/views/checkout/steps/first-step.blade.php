@@ -29,6 +29,14 @@
         <p class="text-red-500 text-sm mt-1">O e-mail é obrigatório.</p>
     </div>
 </div>
+<div class="mb-4">
+    {{-- <label for="email" class="block text-gray-700">E-mail</label> --}}
+    <input type="text" id="payer_phone" name="payer[phone]"
+        class="block w-full border-gray-300 rounded-md shadow-sm" placeholder="Telefone" x-mask="(99) 99999-9999" />
+    <div x-show="errors['payer_phone']">
+        <p class="text-red-500 text-sm mt-1">O telefone é obrigatório.</p>
+    </div>
+</div>
 <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
     <div>
         {{-- <label for="document" class="block text-gray-700">Tipo de documento</label> --}}

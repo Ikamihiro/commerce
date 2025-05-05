@@ -86,9 +86,9 @@
                         <a href="{{ route('contact.index') }}" class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
                             Contato
                         </a>
-                        <a href="https://ava.floodlle.com"
+                        <a href="https://salavirtual.feics.com.br" target="_blank"
                             class="block w-full ps-3 pe-4 py-2 block w-full ps-3 pe-4 py-2">
-                            Espaço do Aluno
+                            Sala Virtual
                         </a>
                     </div>
                 </div>
@@ -106,8 +106,8 @@
                             <a href="{{ route('contact.index') }}" class="inline-flex items-center px-1 pt-1">
                                 Contato
                             </a>
-                            <a href="https://ava.floodlle.com" class="inline-flex items-center px-1 pt-1">
-                                Espaço do Aluno
+                            <a href="https://salavirtual.feics.com.br" target="_blank" class="inline-flex items-center px-1 pt-1">
+                                Sala Virtual
                             </a>
                         </div>
                     </div>

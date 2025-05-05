@@ -193,6 +193,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
                     first_name: document.getElementById('payer_first_name').value,
                     last_name: document.getElementById('payer_last_name').value,
                     email: document.getElementById('payer_email').value,
+                    phone: document.getElementById('payer_phone').value,
                     identification: {
                         type: document.getElementById(
                             'payer_identification_type').value,
@@ -211,6 +212,7 @@ export function Stepper(processRoute, coursePrice, courseId) {
                     first_name: document.getElementById('payer_first_name').value,
                     last_name: document.getElementById('payer_last_name').value,
                     email: document.getElementById('payer_email').value,
+                    phone: document.getElementById('payer_phone').value,
                     identification: {
                         type: document.getElementById(
                             'payer_identification_type').value,

@@ -12,8 +12,8 @@
                         <div
                             class="p-4 text-white bg-gray-800 bg-opacity-75 flex flex-col justify-end items-center h-full">
                             <h3 class="text-xl font-bold">{{ $course->name }}</h3>
-                            <div class="w-full flex flex-wrap justify-around items-center mt-4">
-                                <p class="text-sm grow">{{ $course->description_collapsed }}</p>
+                            <div class="w-full flex flex-wrap justify-around items-center mt-2">
+                                {{-- <p class="text-sm grow">{{ $course->description_collapsed }}</p> --}}
                                 <p class="text-xs mt-6"><i class="ri-time-line mr-2"></i>
                                     {{ $course->total_class_hours }} horas</p>
                                 <p class="text-xs mt-6"><i class="ri-tv-2-line mr-2"></i>

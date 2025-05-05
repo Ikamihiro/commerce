@@ -23,9 +23,9 @@ class WebhookController extends Controller
                 'headers' => $request->headers->all(),
             ]);
 
-            // if (!$this->isValidPayload($request)) {
-            //     throw new InvalidWebhookException('HMAC verification failed');
-            // }
+            if (!$this->isValidPayload($request)) {
+                throw new InvalidWebhookException('HMAC verification failed');
+            }
 
             $payload = WebhookPayload::fromRequest($request);
 
@@ -71,13 +71,12 @@ class WebhookController extends Controller
             return false;
         }
 
-        Log::info([
-            'x-signature' => $xSignature,
-            'x-request-id' => $xRequestId,
-            'query' => $request->query(),
-        ]);
+        $dataID = $request->has('data.id') ? $request->input('data.id') : '';
 
-        $dataID = $request->input('data.id') ?? '';
+        if (!$dataID) {
+            Log::warning('Webhook request missing data ID');
+            return false;
+        }
 
         $parts = explode(',', $xSignature);
         $ts = null;
@@ -101,8 +100,7 @@ class WebhookController extends Controller
             return false;
         }
 
-        $secret = config('services.mercadopago.webhook_secret');
-        Log::info($secret);
+        $secret = config('services.mercado_pago.webhook_secret');
         $manifest = "id:$dataID;request-id:$xRequestId;ts:$ts;";
         $generatedHash = hash_hmac('sha256', $manifest, $secret);
 

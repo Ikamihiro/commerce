@@ -42,6 +42,7 @@ class ProcessPaymentController extends Controller
                 'first_name' => $request->input('payer.first_name'),
                 'last_name' => $request->input('payer.last_name'),
                 'email' => $request->input('payer.email'),
+                'phone' => $request->input('payer.phone'),
                 'password' => 'Mudar@12345',
             ]);
 
