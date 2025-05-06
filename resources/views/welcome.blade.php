@@ -1,7 +1,7 @@
 <x-landing-layout>
     <section class="my-16">
         <h2 class="text-3xl font-semibold text-center mb-8 text-gray-700">Cursos em Destaque</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
             @foreach ($courses as $course)
                 <div
                     class="relative text-gray-700 bg-white rounded-lg shadow-lg px-0 text-center w-[20rem] h-[20rem] transform transition-transform duration-300 hover:scale-105 hover:shadow-xl mx-auto">
