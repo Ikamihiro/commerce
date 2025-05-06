@@ -18,7 +18,7 @@
     <x-embed-styles />
 </head>
 
-<body class="font-sans antialiased">
+<body class="font-sans h-[100vh] antialiased">
     <div class="relative min-h-screen bg-gray-100">
         <nav x-data="{ open: false }">
             <div class="bg-white text-gray-700 border-b border-gray-100">
