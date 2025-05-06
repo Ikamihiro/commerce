@@ -10,7 +10,11 @@ class LandingController extends Controller
 {
     public function __invoke(Request $request)
     {
-        $courses = Course::latest()->limit(3)->get();
+        $courses = Course::query()
+            // ->where('order', '>', 0)
+            ->orderBy('order', 'asc')
+            ->limit(6)
+            ->get();
 
         return view('welcome', compact('courses'));
     }

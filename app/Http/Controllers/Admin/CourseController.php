@@ -39,6 +39,7 @@ class CourseController extends Controller
             'buy_button_text' => 'nullable|string|max:255',
             'students_number' => 'nullable|integer',
             'purchase_released' => 'nullable|boolean',
+            'order' => 'nullable|integer',
         ]);
 
         $imagePath = $request->file('image')->store('public/courses');
@@ -47,6 +48,7 @@ class CourseController extends Controller
             ...$request->except('image'),
             'cover' => $imagePath,
             'purchase_released' => $request->input('purchase_released', false),
+            'order' => $request->input('order', 0),
         ]);
 
         return redirect()->route('admin.courses.index')
@@ -80,6 +82,7 @@ class CourseController extends Controller
             'buy_button_text' => 'nullable|string|max:255',
             'students_number' => 'nullable|integer',
             'purchase_released' => 'nullable|boolean',
+            'order' => 'nullable|integer',
         ]);
 
         $imagePath = $course->cover;
@@ -95,7 +98,8 @@ class CourseController extends Controller
         $course->update([
             ...$request->except('image'),
             'cover' => $imagePath,
-            'purchase_released' => $request->input('purchase_released', false),
+            'purchase_released' => $request->input('purchase_released', $course->purchase_released),
+            'order' => $request->input('order', 0),
         ]);
 
         return redirect()->route('admin.courses.index')

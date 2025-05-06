@@ -23,6 +23,7 @@ class Course extends Model
         'buy_button_text',
         'students_number',
         'purchase_released',
+        'order',
     ];
 
     public function orders()
