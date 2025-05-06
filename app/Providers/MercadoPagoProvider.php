@@ -13,11 +13,11 @@ class MercadoPagoProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(MercadoPagoService::class, function () {
-            return new MercadoPagoService(
-                new \MercadoPago\Client\Payment\PaymentClient(),
-            );
-        });
+        // $this->app->bind(MercadoPagoService::class, function () {
+        //     return new MercadoPagoService(
+        //         new \MercadoPago\Client\Payment\PaymentClient(),
+        //     );
+        // });
     }
 
     /**

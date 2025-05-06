@@ -40,7 +40,7 @@
 
         <p>Dados para acessar:</p>
         <ul>
-            <li><strong>Site de acesso:</strong> <a href="https://ava.floodlle.com">https://ava.floodlle.com</a></li>
+            <li><strong>Site de acesso:</strong> <a href="https://salavirtual.feics.com.br">https://salavirtual.feics.com.br</a></li>
             <li><strong>E-mail:</strong> {{ $student->email }}</li>
             <li><strong>Senha:</strong> {{ $student->password }}</li>
         </ul>
