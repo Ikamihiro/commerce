@@ -10,10 +10,17 @@
         </div>
 
         <div class="flex justify-center mt-8">
-            <a href="{{ route('courses.checkout', $course->id) }}"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-xl md:text-2xl">
-                {{ $course->buy_button_text ?? 'Comprar curso' }}
-            </a>
+            @if ($course->purchase_released)
+                <a href="{{ route('courses.checkout', $course->id) }}"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-xl md:text-2xl">
+                    {{ $course->buy_button_text ?? 'Comprar curso' }}
+                </a>
+            @else
+                <button type="button" disabled="disabled"
+                    class="bg-gray-500 text-white font-bold py-4 px-6 rounded text-xl md:text-2xl">
+                    {{ $course->buy_button_text ?? 'Comprar curso' }}
+                </button>
+            @endif
         </div>
 
         <div class="mt-20 pt-20 border-t border-gray-200">
