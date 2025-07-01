@@ -40,6 +40,8 @@ class CourseController extends Controller
             'students_number' => 'nullable|integer',
             'purchase_released' => 'nullable|boolean',
             'order' => 'nullable|integer',
+            'max_installments' => 'nullable|integer|min:1',
+            'modality' => 'nullable|string|in:online,presential',
         ]);
 
         $imagePath = $request->file('image')->store('public/courses');
@@ -83,6 +85,8 @@ class CourseController extends Controller
             'students_number' => 'nullable|integer',
             'purchase_released' => 'nullable|boolean',
             'order' => 'nullable|integer',
+            'max_installments' => 'nullable|integer|min:1',
+            'modality' => 'nullable|string|in:online,presential',
         ]);
 
         $imagePath = $course->cover;

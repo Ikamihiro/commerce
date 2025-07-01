@@ -24,6 +24,8 @@ class Course extends Model
         'students_number',
         'purchase_released',
         'order',
+        'max_installments',
+        'modality',
     ];
 
     public function orders()

@@ -70,6 +70,20 @@
                                 @enderror
                             </div>
                             <div class="mb-4">
+                                <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                                    Modalidade
+                                </label>
+                                <select
+                                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    name="modality" id="modality">
+                                    <option value="online" {{ old('modality', $course->modality) === 'online' ? 'selected' : '' }}>Online</option>
+                                    <option value="presential" {{ old('modality', $course->modality) === 'presential' ? 'selected' : '' }}>Presencial</option>
+                                </select>
+                                @error('description')
+                                    <p class="text-red-500 text-xs italic">{{ $message }}</p>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
                                 <label class="block text-gray-700 text-sm font-bold mb-2" for="price">
                                     Preço
                                 </label>
@@ -349,7 +363,8 @@
                                             {{ $module->name }}</h4>
                                         <p class="text-md text-gray-500 mt-1">{{ $module->description }}</p>
                                         <p class="text-md text-gray-500">Carga horária: {{ $module->class_hours }}</p>
-                                        <p class="text-md text-gray-500">Quantida de aulas: {{ $module->classes_number }}</p>
+                                        <p class="text-md text-gray-500">Quantida de aulas:
+                                            {{ $module->classes_number }}</p>
                                     </div>
                                     <div>
                                         <form action="{{ route('admin.courses.modules.detach', [$course, $module]) }}"
