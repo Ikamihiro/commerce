@@ -15,6 +15,7 @@ class Order extends Model
         'course_id',
         'student_id',
         'status',
+        'checkout_id',
     ];
 
     public function course()

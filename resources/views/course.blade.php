@@ -11,7 +11,7 @@
 
         <div class="flex justify-center mt-8">
             @if ($course->purchase_released)
-                <a href="{{ route('courses.checkout', $course->id) }}"
+                <a href="{{ route('courses.checkout.index', $course->id) }}"
                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded text-xl md:text-2xl">
                     {{ $course->buy_button_text ?? 'Comprar curso' }}
                 </a>

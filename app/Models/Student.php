@@ -18,6 +18,13 @@ class Student extends Model
         'phone',
         'document',
         'password',
+        'address',
+        'address_number',
+        'address_complement',
+        'city',
+        'state',
+        'postal_code',
+        'external_id',
     ];
 
     public function orders()

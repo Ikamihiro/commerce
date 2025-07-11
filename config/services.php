@@ -42,5 +42,10 @@ return [
     'moodle' => [
         'url' => env('MOODLE_URL'),
         'token' => env('MOODLE_TOKEN'),
-    ]
+    ],
+
+    'asaas' => [
+        'access_token' => env('ASAAS_ACCESS_TOKEN'),
+        'url' => env('ASAAS_API_URL', 'https://api.asaas.com.br'),
+    ],
 ];

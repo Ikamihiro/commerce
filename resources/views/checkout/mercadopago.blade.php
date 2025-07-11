@@ -1,5 +1,4 @@
 <x-checkout-layout>
-
     <div x-data="Stepper('{{ route('payment.process') }}', '{{ $course->price }}', '{{ $course->id }}')" x-cloak x-init="init()">
         <div x-show="confirmed === false" class="flex items-center mb-8">
             <div class="w-[6rem] h-[6rem]">

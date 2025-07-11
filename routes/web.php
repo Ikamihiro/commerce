@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\ModuleController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Course\AsaasCheckoutController;
 use App\Http\Controllers\Course\CheckoutController;
 use App\Http\Controllers\Course\GetOneCourseController;
 use App\Http\Controllers\Landing\ContactController;
@@ -24,9 +25,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', LandingController::class)->name('landing');
+
 Route::get('/courses', GetAllCoursesController::class)->name('courses.index');
 Route::get('/courses/{course}', GetOneCourseController::class)->name('courses.show');
-Route::get('/courses/{course}/checkout', CheckoutController::class)->name('courses.checkout');
+Route::get('/courses/{course}/checkout', [CheckoutController::class, 'index'])->name('courses.checkout.index');
+Route::post('/courses/{course}/checkout', AsaasCheckoutController::class)->name('courses.checkout.asaas');
+
+Route::get('/courses/{course}/checkout/cancel', [CheckoutController::class, 'cancel'])->name('courses.checkout.cancel');
+Route::get('/courses/{course}/checkout/expired', [CheckoutController::class, 'expired'])->name('courses.checkout.expired');
+Route::get('/courses/{course}/checkout/success', [CheckoutController::class, 'success'])->name('courses.checkout.success');
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 

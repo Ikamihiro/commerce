@@ -186,4 +186,7 @@ return [
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
+    'payment' => [
+        'gateway' => env('PAYMENT_GATEWAY', 'mercadopago'),
+    ],
 ];
