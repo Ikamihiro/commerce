@@ -13,11 +13,13 @@
             </a>
         </div>
 
-        <form method="GET" action="{{ route('courses.index') }}" class="flex mb-8 px-6 py-4 items-center mx-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Ou pesquise cursos por aqui..."
+        <form method="GET" action="{{ route('courses.index') }}"
+            class="flex items-stretch mb-8 px-0 md:px-6 py-4 items-center mx-0 md:mx-2">
+            <input type="text" name="search" value="{{ request('search') }}"
+                placeholder="Ou pesquise cursos por aqui..."
                 class="border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 grow">
             <button type="submit"
-                class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit">
+                class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit text-xs sm:text-sm md:text-base">
                 Buscar
             </button>
         </form>
@@ -33,8 +35,8 @@
                         <div
                             class="p-4 text-white bg-gray-800 bg-opacity-75 flex flex-col justify-end items-center h-full">
                             <h3 class="text-xl font-bold">{{ $course->name }}</h3>
-                            <div class="w-full flex flex-wrap justify-around items-center mt-4">
-                                <p class="text-sm grow">{{ $course->description_collapsed }}</p>
+                            <div class="w-full flex flex-wrap justify-around items-center mt-2">
+                                {{-- <p class="text-sm grow">{{ $course->description_collapsed }}</p> --}}
                                 <p class="text-xs mt-6"><i class="ri-time-line mr-2"></i>
                                     {{ $course->total_class_hours }} horas</p>
                                 <p class="text-xs mt-6"><i class="ri-tv-2-line mr-2"></i>

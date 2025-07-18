@@ -6,8 +6,8 @@
             <form action="{{ route('contact.store') }}" method="POST">
                 @csrf
 
-                <div class="flex w-full items-center">
-                    <div class="mb-4 grow mr-2">
+                <div class="flex flex-col md:flex-row w-full items-center">
+                    <div class="w-full mb-4 grow mr-0 md:mr-2">
                         <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
                         <input type="text" id="name" name="name" value="{{ old('name') }}"
                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
@@ -17,7 +17,7 @@
                         @enderror
                     </div>
 
-                    <div class="mb-4 grow ml-2">
+                    <div class="w-full mb-4 grow ml-0 md:ml-2">
                         <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
                         <input type="email" id="email" name="email" value="{{ old('email') }}"
                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
