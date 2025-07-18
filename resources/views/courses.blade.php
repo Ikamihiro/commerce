@@ -2,8 +2,19 @@
     <section class="my-16">
         <h2 class="text-3xl font-semibold text-center mb-8 text-gray-700">Cursos</h2>
 
+        <div class="flex justify-center mb-8 space-x-4">
+            <a href="{{ route('courses.index', ['modality' => 'online']) }}"
+                class="px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == 'online' ? 'bg-blue-500 text-white' : '' }}">
+                Online
+            </a>
+            <a href="{{ route('courses.index', ['modality' => 'presential']) }}"
+                class="px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == 'presential' ? 'bg-blue-500 text-white' : '' }}">
+                Presencial
+            </a>
+        </div>
+
         <form method="GET" action="{{ route('courses.index') }}" class="flex mb-8 px-6 py-4 items-center mx-2">
-            <input type="text" name="search" value="{{ request('search') }}" placeholder="Buscar cursos..."
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Ou pesquise cursos por aqui..."
                 class="border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200 focus:border-blue-300 grow">
             <button type="submit"
                 class="ml-2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-fit">

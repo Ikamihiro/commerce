@@ -15,7 +15,11 @@ class GetAllCoursesController extends Controller
                 $query
                     ->where('name', 'like', "%{$request->search}%")
                     ->orWhere('description', 'like', "%{$request->search}%");
-            })->get();
+            })
+            ->when($request->modality, function ($query) use ($request) {
+                $query->where('modality', $request->modality);
+            })
+            ->get();
 
         return view('courses', compact('courses'));
     }
