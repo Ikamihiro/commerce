@@ -27,6 +27,8 @@ class CheckAndCompleteOrder
     {
         $order = $event->order;
 
+        $order->load(['course']);
+
         Log::info('Handling PaymentConfirmed event', [
             'order_id' => $order->id,
             'student_id' => $order->student_id,
@@ -42,16 +44,18 @@ class CheckAndCompleteOrder
             return;
         }
 
-        // Dispatch job to process student enrollment
-        ProcessStudentEnrollment::dispatch(
-            $order->student,
-            $order->course,
-        );
+        if ($order->course->modality === 'online') {
+            // Dispatch job to process student enrollment
+            ProcessStudentEnrollment::dispatch(
+                $order->student,
+                $order->course,
+            );
 
-        Log::info('Student enrollment processing dispatched', [
-            'student_id' => $order->student_id,
-            'course_id' => $order->course_id,
-        ]);
+            Log::info('Student enrollment processing dispatched', [
+                'student_id' => $order->student_id,
+                'course_id' => $order->course_id,
+            ]);
+        }
 
         // Send email notification to the student
         Mail::to($order->student->email)
