@@ -90,14 +90,20 @@ class AsaasWebhookProcessor
 
         $payment = $order->payments()->where('external_id', $payload->paymentId)->first();
         if (!$payment) {
-            // If payment does not exist, we cannot process the confirmed event
-            throw new \Exception('Payment not found for confirmed event');
+            $payment = $order->payments()->create([
+                'external_id' => $payload->data['id'],
+                'amount' => $payload->data['value'],
+                'installments' => $payload->data['installmentNumber'] ?? 1,
+                'data' => $payload->data,
+                'type' => $payload->data['billingType'],
+                'status' => 'confirmed',
+            ]);
+        } else {
+            $payment->update([
+                'status' => 'confirmed',
+                'data' => $payload->data,
+            ]);
         }
-
-        $payment->update([
-            'status' => 'approved',
-            'data' => $payload->data,
-        ]);
 
         Log::info('Payment confirmed for order', [
             'order_id' => $order->id,

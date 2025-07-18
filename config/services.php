@@ -47,5 +47,6 @@ return [
     'asaas' => [
         'access_token' => env('ASAAS_ACCESS_TOKEN'),
         'url' => env('ASAAS_API_URL', 'https://api.asaas.com.br'),
+        'webhook_secret' => env('ASAAS_WEBHOOK_SECRET'),
     ],
 ];

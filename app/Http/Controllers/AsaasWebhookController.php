@@ -69,7 +69,7 @@ class AsaasWebhookController extends Controller
      */
     private function validateWebhook(Request $request)
     {
-        $webhookToken = config('services.asaas.webhook_token');
+        $webhookToken = config('services.asaas.webhook_secret');
         $receivedToken = $request->header('Asaas-Access-Token');
 
         return hash_equals($webhookToken, $receivedToken);

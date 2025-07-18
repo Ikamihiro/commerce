@@ -3,7 +3,7 @@
         loading: false,
         errors: {},
         documentNumber: '',
-        documentType: '',
+        documentType: 'CPF',
         init() {
             this.$watch('documentType', (value) => {
                 this.documentNumber = '';
