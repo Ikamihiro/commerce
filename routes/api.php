@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\GetPaymentStatusByIdController;
 use App\Http\Controllers\Api\ProcessPaymentController;
+use App\Http\Controllers\AsaasWebhookController;
 use App\Http\Controllers\WebhookController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::any('/webhook', WebhookController::class)->middleware('webhook');
+Route::any('/webhook/asaas', AsaasWebhookController::class)->middleware('webhook');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

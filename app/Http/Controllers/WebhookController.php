@@ -4,15 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\InvalidWebhookException;
 use App\Exceptions\PaymentNotFoundException;
-use App\Services\Webhook\WebhookPayload;
-use App\Services\Webhook\Processors\WebhookProcessorContract;
+use App\Services\Webhook\Payloads\MercadoPagoPayload;
+use App\Services\Webhook\Processors\MercadoPagoWebhookProcessor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class WebhookController extends Controller
 {
     public function __construct(
-        private WebhookProcessorContract $webhookProcessor
+        private MercadoPagoWebhookProcessor $webhookProcessor
     ) {}
 
     public function __invoke(Request $request)
@@ -27,7 +27,7 @@ class WebhookController extends Controller
                 throw new InvalidWebhookException('HMAC verification failed');
             }
 
-            $payload = WebhookPayload::fromRequest($request);
+            $payload = MercadoPagoPayload::fromRequest($request);
 
             $this->webhookProcessor->process($payload);
         } catch (InvalidWebhookException $e) {
@@ -61,6 +61,12 @@ class WebhookController extends Controller
         ]);
     }
 
+    /**
+     * Validates the webhook payload using HMAC signature verification.
+     *
+     * @param Request $request
+     * @return bool
+     */
     private function isValidPayload(Request $request): bool
     {
         $xSignature = $request->header('x-signature');

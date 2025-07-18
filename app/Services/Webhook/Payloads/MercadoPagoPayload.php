@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Webhook;
+namespace App\Services\Webhook\Payloads;
 
 use Illuminate\Http\Request;
 
-class WebhookPayload
+class MercadoPagoPayload
 {
     public function __construct(
         public readonly string $type,
@@ -17,7 +17,7 @@ class WebhookPayload
         return new self(
             type: $request->input('type'),
             paymentId: $request->input('data.id'),
-            data: $request->all()
+            data: $request->input('data', []),
         );
     }
 
@@ -28,5 +28,20 @@ class WebhookPayload
             'paymentId' => $this->paymentId,
             'data' => $this->data,
         ];
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getPaymentId(): string
+    {
+        return $this->paymentId;
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
     }
 }

@@ -33,6 +33,11 @@ class Order extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function scopeOfCheckoutId($query, $checkoutId)
+    {
+        return $query->where('checkout_id', $checkoutId);
+    }
+
     protected function statusTranslated(): Attribute
     {
         return Attribute::make(
@@ -40,7 +45,9 @@ class Order extends Model
                 'authorized' => 'Autorizado',
                 'approved' => 'Aprovado',
                 'cancelled' => 'Cancelado',
+                'payment_failed' => 'Pagamento falhou',
                 'pending' => 'Pendente',
+                'completed' => 'Concluído',
                 default => 'Desconhecido',
             },
         );

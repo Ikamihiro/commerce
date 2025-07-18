@@ -9,17 +9,17 @@ use App\Mail\OrderApproved;
 use App\Models\Payment;
 use App\Models\WebhookEntry;
 use App\Services\Payment\MercadoPagoService;
-use App\Services\Webhook\WebhookPayload;
+use App\Services\Webhook\Payloads\MercadoPagoPayload;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
-class MercadoPagoWebhookProcessor implements WebhookProcessorContract
+class MercadoPagoWebhookProcessor
 {
     public function __construct(
         private MercadoPagoService $mercadoPagoService,
     ) {}
 
-    public function process(WebhookPayload $payload): void
+    public function process(MercadoPagoPayload $payload): void
     {
         Log::info('Processing Mercado Pago webhook', [
             'payload' => $payload->toArray(),
@@ -31,7 +31,7 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
 
         WebhookEntry::create(['payload' => $payload->toArray()]);
 
-        $payment = $this->fetchAndUpdatePayment($payload->paymentId);
+        $payment = $this->fetchAndUpdatePayment($payload->getPaymentId());
 
         Log::info('Processing payment', [
             'payment' => $payment->toArray(),
@@ -45,9 +45,9 @@ class MercadoPagoWebhookProcessor implements WebhookProcessorContract
         };
     }
 
-    private function isValidPayload(WebhookPayload $payload): bool
+    private function isValidPayload(MercadoPagoPayload $payload): bool
     {
-        return $payload->type === 'payment';
+        return $payload->getType() === 'payment';
     }
 
     private function fetchAndUpdatePayment(string $paymentId): Payment
