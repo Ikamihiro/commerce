@@ -39,12 +39,12 @@ class Checkout
             ],
             'customer' => $this->student->external_id ?: $this->student->id,
             'callback' => [
-                // 'successUrl' => route('courses.checkout.success', ['course' => $this->course]),
-                // 'cancelUrl' => route('courses.checkout.cancel', ['course' => $this->course]),
-                // 'expiredUrl' => route('courses.checkout.expired', ['course' => $this->course]),
-                'successUrl' => 'https://example.com/success',
-                'cancelUrl' => 'https://example.com/cancel',
-                'expiredUrl' => 'https://example.com/expired',
+                'successUrl' => route('courses.checkout.success', ['course' => $this->course]),
+                'cancelUrl' => route('courses.checkout.cancel', ['course' => $this->course]),
+                'expiredUrl' => route('courses.checkout.expired', ['course' => $this->course]),
+                // 'successUrl' => 'https://example.com/success',
+                // 'cancelUrl' => 'https://example.com/cancel',
+                // 'expiredUrl' => 'https://example.com/expired',
             ],
             'items' => [
                 [
