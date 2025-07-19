@@ -48,6 +48,7 @@ class Order extends Model
                 'payment_failed' => 'Pagamento falhou',
                 'pending' => 'Pendente',
                 'completed' => 'Concluído',
+                'expired' => 'Expirado',
                 default => 'Desconhecido',
             },
         );

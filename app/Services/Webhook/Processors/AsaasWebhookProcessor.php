@@ -33,6 +33,8 @@ class AsaasWebhookProcessor
             'PAYMENT_CREATED' => $this->handlePaymentCreatedEvent($payload),
             'PAYMENT_CONFIRMED' => $this->handlePaymentConfirmedEvent($payload),
             'PAYMENT_CREDIT_CARD_CAPTURE_REFUSED', 'PAYMENT_OVERDUE' => $this->handlePaymentFailedEvent($payload),
+            'CHECKOUT_CANCELLED' => $this->handleCheckoutCancelledEvent($payload),
+            'CHECKOUT_EXPIRED' => $this->handleCheckoutExpiredEvent($payload),
             default => $this->handleUnknownEvent($payload),
         };
     }
@@ -161,5 +163,45 @@ class AsaasWebhookProcessor
 
         // Optionally, you can throw an exception or notify the admin
         // throw new \Exception('Unknown Asaas webhook event: ' . $payload->event);
+    }
+
+    private function handleCheckoutCancelledEvent(AsaasPayload $payload): void
+    {
+        $checkoutSession = $payload->getCheckoutSession();
+
+        Log::info('Processing CHECKOUT_CANCELLED event', [
+            'data' => $payload->toArray(),
+        ]);
+
+        /**
+         * @var Order $order
+         */
+        $order = Order::ofCheckoutId($checkoutSession)
+            ->with(['course', 'student'])
+            ->firstOrFail();
+
+        $order->update([
+            'status' => 'cancelled',
+        ]);
+    }
+
+    private function handleCheckoutExpiredEvent(AsaasPayload $payload): void
+    {
+        $checkoutSession = $payload->getCheckoutSession();
+
+        Log::info('Processing CHECKOUT_EXPIRED event', [
+            'data' => $payload->toArray(),
+        ]);
+
+        /**
+         * @var Order $order
+         */
+        $order = Order::ofCheckoutId($checkoutSession)
+            ->with(['course', 'student'])
+            ->firstOrFail();
+
+        $order->update([
+            'status' => 'expired',
+        ]);
     }
 }

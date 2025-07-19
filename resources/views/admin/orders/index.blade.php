@@ -98,7 +98,8 @@
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                     {{ $order->created_at->format('d/m/Y') }}</td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    {{ $order->payments_sum_amount ? 'R$ ' . number_format($order->payments_sum_amount, 2, ',', '.') : 'R$ 0,00' }}
+                                    {{-- {{ $order->payments_sum_amount ? 'R$ ' . number_format($order->payments_sum_amount, 2, ',', '.') : 'R$ 0,00' }} --}}
+                                    {{'R$ ' . number_format($order->course->price ?? 0, 2, ',', '.') }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <button
@@ -164,16 +165,16 @@
                     <div class="mt-4">
                         <h2 class="text-lg font-semibold">Valor</h2>
                         <p class="text-gray-700"
-                            x-text="order?.payments_sum_amount ? 'R$ ' + order.payments_sum_amount.toFixed(2).replace('.', ',') : 'R$ 0,00'">
+                            x-text="order?.course?.price ? 'R$ ' + (Number(order.course.price)).toFixed(2).replace('.', ',') : 'R$ 0,00'">
                         </p>
                     </div>
 
                     <template x-if="order?.payments?.length > 0">
                         <div class="mt-4">
                             <h2 class="text-lg font-semibold">Pagamentos</h2>
-                            <div class="flex mt-2">
+                            <div class="flex flex-col mt-2 max-h-64 overflow-y-auto p-2">
                                 <template x-for="payment in order.payments" :key="payment.id">
-                                    <div class="bg-gray-100 p-4 rounded-lg shadow-md mr-4 mb-4">
+                                    <div class="bg-gray-100 p-4 rounded-lg shadow-md mr-0 mb-4">
                                         <p class="text-sm text-gray-700 font-semibold">
                                             Valor: <span
                                                 x-text="payment.amount ? 'R$ ' + (Number(payment.amount)).toFixed(2).replace('.', ',') : 'R$ 0,00'"></span>
@@ -189,7 +190,8 @@
                                             Status: <span
                                                 :class="{
                                                     'bg-blue-100 text-blue-800': payment.status === 'authorized',
-                                                    'bg-green-100 text-green-800': payment.status === 'approved',
+                                                    'bg-green-100 text-green-800': payment.status === 'approved' ||
+                                                        payment.status === 'confirmed',
                                                     'bg-red-100 text-red-800': payment.status === 'canceled' ||
                                                         payment.status === 'rejected',
                                                     'bg-yellow-100 text-yellow-800': payment.status === 'pending',
@@ -200,7 +202,6 @@
                                         </p>
                                     </div>
                                 </template>
-                                </ul>
                             </div>
                     </template>
                 </div>

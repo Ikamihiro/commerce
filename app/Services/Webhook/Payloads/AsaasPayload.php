@@ -17,7 +17,7 @@ class AsaasPayload
             id: $request->input('id'),
             event: $request->input('event'),
             paymentId: $request->input('payment.id'),
-            data: $request->input('payment', []),
+            data: $request->input('payment', $request->all()),
         );
     }
 
@@ -33,7 +33,7 @@ class AsaasPayload
 
     public function getCheckoutSession(): string
     {
-        $checkoutSession = $this->data['checkoutSession'] ?? null;
+        $checkoutSession = $this->data['checkoutSession'] ?? $this->data['checkout']['id'] ?? null;
         if (!$checkoutSession) {
             throw new \Exception('Checkout session not found in payment data');
         }
