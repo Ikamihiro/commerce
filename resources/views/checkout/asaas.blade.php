@@ -200,7 +200,7 @@
             <div class="flex justify-end mt-8">
                 <button type="submit" id="submit-button"
                     class="bg-green-500 text-white font-bold py-2 px-4 rounded">
-                    Ir para o checkout
+                    Ir para o pagamento
                 </button>
             </div>
         </form>

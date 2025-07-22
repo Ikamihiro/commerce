@@ -1,6 +1,23 @@
 <x-landing-layout>
     <section class="my-16">
         <h2 class="text-3xl font-semibold text-center mb-8 text-gray-700">Cursos em Destaque</h2>
+
+        <p class="text-center text-gray-600 mb-2">Selecione a modalidade do curso</p>
+        <div class="flex justify-center mb-8 space-x-4">
+            <a href="{{ route('landing', ['modality' => 'online']) }}"
+                class="px-2 md:px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == 'online' ? 'bg-blue-500 text-white' : '' }}">
+                Online
+            </a>
+            <a href="{{ route('landing', ['modality' => 'presential']) }}"
+                class="px-2 md:px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == 'presential' ? 'bg-blue-500 text-white' : '' }}">
+                Presencial
+            </a>
+            <a href="{{ route('landing') }}"
+                class="px-2 md:px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == null ? 'bg-blue-500 text-white' : '' }}">
+                Todos
+            </a>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pb-16">
             @foreach ($courses as $course)
                 <div

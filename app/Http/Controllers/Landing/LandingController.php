@@ -11,7 +11,9 @@ class LandingController extends Controller
     public function __invoke(Request $request)
     {
         $courses = Course::query()
-            // ->where('order', '>', 0)
+            ->when($request->modality, function ($query) use ($request) {
+                $query->where('modality', $request->modality);
+            })
             ->orderBy('order', 'asc')
             ->limit(6)
             ->get();

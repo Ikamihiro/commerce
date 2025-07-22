@@ -2,6 +2,7 @@
     <section class="my-16">
         <h2 class="text-3xl font-semibold text-center mb-8 text-gray-700">Cursos</h2>
 
+        <p class="text-center text-gray-600 mb-2">Selecione a modalidade do curso</p>
         <div class="flex justify-center mb-8 space-x-4">
             <a href="{{ route('courses.index', ['modality' => 'online']) }}"
                 class="px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == 'online' ? 'bg-blue-500 text-white' : '' }}">
@@ -10,6 +11,10 @@
             <a href="{{ route('courses.index', ['modality' => 'presential']) }}"
                 class="px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == 'presential' ? 'bg-blue-500 text-white' : '' }}">
                 Presencial
+            </a>
+            <a href="{{ route('courses.index') }}"
+                class="px-6 py-2 rounded-lg font-semibold border border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white transition-colors {{ request('modality') == null ? 'bg-blue-500 text-white' : '' }}">
+                Todos
             </a>
         </div>
 
