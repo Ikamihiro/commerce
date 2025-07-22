@@ -7,7 +7,7 @@ class AsaasPayload
     public function __construct(
         public readonly string $id,
         public readonly string $event,
-        public readonly string $paymentId,
+        public readonly string|null $paymentId,
         public readonly array $data
     ) {}
 
