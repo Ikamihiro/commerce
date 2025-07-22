@@ -45,6 +45,8 @@ Route::get('/admin/dashboard', function () {
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('orders', [\App\Http\Controllers\Admin\OrderController::class, 'index'])->name('orders.index');
 
+    Route::get('extratos', \App\Http\Controllers\Admin\ExtratoController::class)->name('extratos.index');
+
     Route::get('courses/{course}/modules', [CourseController::class, 'modules'])->name('courses.modules');
     Route::post('courses/{course}/modules/create-attach', [CourseController::class, 'createAndAttach'])->name('courses.modules.createAndAttach');
     Route::post('courses/{course}/modules', [CourseController::class, 'attachModule'])->name('courses.modules.attach');

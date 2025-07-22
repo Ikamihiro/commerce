@@ -46,6 +46,10 @@
                                 class="block ps-3 pe-4 py-2 block ps-3 pe-4 py-2 @if (request()->routeIs('admin.orders.index')) text-blue-500 @endif">
                                 Pedidos
                             </a>
+                            <a href="{{ route('admin.extratos.index') }}"
+                                class="block ps-3 pe-4 py-2 block ps-3 pe-4 py-2 @if (request()->routeIs('admin.extratos.index')) text-blue-500 @endif">
+                                Extrato
+                            </a>
                             <a href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                                 class="block ps-3 pe-4 py-2 text-red-500">
