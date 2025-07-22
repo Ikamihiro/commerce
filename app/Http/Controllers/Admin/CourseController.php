@@ -40,7 +40,7 @@ class CourseController extends Controller
             'students_number' => 'nullable|integer',
             'purchase_released' => 'nullable|boolean',
             'order' => 'nullable|integer',
-            'max_installments' => 'nullable|integer|min:1',
+            'max_installments' => 'nullable|integer|min:1|max:21',
             'modality' => 'nullable|string|in:online,presential',
         ]);
 
@@ -85,7 +85,7 @@ class CourseController extends Controller
             'students_number' => 'nullable|integer',
             'purchase_released' => 'nullable|boolean',
             'order' => 'nullable|integer',
-            'max_installments' => 'nullable|integer|min:1',
+            'max_installments' => 'nullable|integer|min:1|max:21',
             'modality' => 'nullable|string|in:online,presential',
         ]);
 
