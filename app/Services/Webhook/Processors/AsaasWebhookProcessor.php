@@ -32,6 +32,7 @@ class AsaasWebhookProcessor
         match ($payload->event) {
             'PAYMENT_CREATED' => $this->handlePaymentCreatedEvent($payload),
             'PAYMENT_CONFIRMED' => $this->handlePaymentConfirmedEvent($payload),
+            'PAYMENT_RECEIVED' => $this->handlePaymentReceivedEvent($payload),
             'PAYMENT_CREDIT_CARD_CAPTURE_REFUSED', 'PAYMENT_OVERDUE' => $this->handlePaymentFailedEvent($payload),
             'CHECKOUT_CANCELLED' => $this->handleCheckoutCancelledEvent($payload),
             'CHECKOUT_EXPIRED' => $this->handleCheckoutExpiredEvent($payload),
@@ -79,7 +80,7 @@ class AsaasWebhookProcessor
     {
         $checkoutSession = $payload->getCheckoutSession();
 
-        Log::info('Processing PAYMENT_CONFIRMED event', [
+        Log::info('Processing PAYMENT_CONFIRMED event (intermediate status for credit card)', [
             'checkout_session' => $checkoutSession,
         ]);
 
@@ -110,9 +111,76 @@ class AsaasWebhookProcessor
         Log::info('Payment confirmed for order', [
             'order_id' => $order->id,
             'payment_id' => $payment->id,
+            'already_processed' => $payment->processed_at !== null,
         ]);
 
-        PaymentConfirmed::dispatch($order, $payment);
+        // Only dispatch if payment hasn't been processed yet
+        // This prevents duplicate processing when PAYMENT_RECEIVED comes after PAYMENT_CONFIRMED
+        if ($payment->processed_at === null) {
+            Log::info('Dispatching PaymentConfirmed event (first time)', [
+                'payment_id' => $payment->id,
+            ]);
+            PaymentConfirmed::dispatch($order, $payment);
+        } else {
+            Log::info('Skipping PaymentConfirmed dispatch - payment already processed', [
+                'payment_id' => $payment->id,
+                'processed_at' => $payment->processed_at,
+            ]);
+        }
+    }
+
+    private function handlePaymentReceivedEvent(AsaasPayload $payload): void
+    {
+        $checkoutSession = $payload->getCheckoutSession();
+
+        Log::info('Processing PAYMENT_RECEIVED event (final payment status)', [
+            'checkout_session' => $checkoutSession,
+        ]);
+
+        /**
+         * @var Order $order
+         */
+        $order = Order::ofCheckoutId($checkoutSession)
+            ->with(['course', 'student'])
+            ->firstOrFail();
+
+        $payment = $order->payments()->where('external_id', $payload->paymentId)->first();
+        if (!$payment) {
+            $payment = $order->payments()->create([
+                'external_id' => $payload->data['id'],
+                'amount' => $payload->data['value'],
+                'installments' => $payload->data['installmentNumber'] ?? 1,
+                'data' => $payload->data,
+                'type' => $payload->data['billingType'],
+                'status' => 'received',
+            ]);
+        } else {
+            $payment->update([
+                'status' => 'received',
+                'data' => $payload->data,
+            ]);
+        }
+
+        Log::info('Payment received for order', [
+            'order_id' => $order->id,
+            'payment_id' => $payment->id,
+            'already_processed' => $payment->processed_at !== null,
+        ]);
+
+        // Only dispatch if payment hasn't been processed yet
+        // This is the final payment status, so we always want to complete the order
+        // unless it was already completed by a previous PAYMENT_CONFIRMED event
+        if ($payment->processed_at === null) {
+            Log::info('Dispatching PaymentConfirmed event for received payment', [
+                'payment_id' => $payment->id,
+            ]);
+            PaymentConfirmed::dispatch($order, $payment);
+        } else {
+            Log::info('Skipping PaymentConfirmed dispatch - payment already processed', [
+                'payment_id' => $payment->id,
+                'processed_at' => $payment->processed_at,
+            ]);
+        }
     }
 
     private function handlePaymentFailedEvent(AsaasPayload $payload): void
